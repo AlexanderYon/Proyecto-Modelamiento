@@ -1,4 +1,4 @@
-package equipo.cinco.proyectomodelamiento;
+package servlets;
 
 import java.io.*;
 
