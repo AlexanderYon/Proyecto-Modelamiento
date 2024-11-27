@@ -4,10 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BaseDeDatos {
     private static final String URL = "jdbc:sqlite:mi_base_de_datos.db";
@@ -33,7 +34,9 @@ public class BaseDeDatos {
         String sql = "CREATE TABLE IF NOT EXISTS usuarios (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "nombre TEXT NOT NULL, " +
-                "edad INTEGER NOT NULL)";
+                "rut TEXT NOT NULL, " +
+                "fechaNacimiento DATE, " +
+                "nroTelefono TEXT)";
 
         try (Connection conn = conectar();
              Statement stmt = conn.createStatement()) {
@@ -44,20 +47,35 @@ public class BaseDeDatos {
             e.printStackTrace();
         }
     }
-    public static boolean insertarUsuario(String nombre, int edad) {
-        String sql = "INSERT INTO usuarios (nombre, edad) VALUES (?, ?)";
+
+    public static boolean insertarUsuario(String nombre, String rut, LocalDate fechaNacimiento, String nroTelefono) {
+        String sql = "INSERT INTO usuarios (nombre, rut, fechaNacimiento, nroTelefono) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = conectar();
-             var pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nombre);
-            pstmt.setInt(2, edad);
+            pstmt.setString(2, rut);  // Rut como String
+            pstmt.setDate(3, (fechaNacimiento != null) ? Date.valueOf(fechaNacimiento) : null);  // Convertir LocalDate a Date
+            pstmt.setString(4, nroTelefono);
+
             pstmt.executeUpdate();
+            System.out.println("Usuario insertado correctamente.");
             return true;
-        } catch (Exception e) {
+
+        } catch (SQLException e) {
             System.err.println("Error al insertar usuario.");
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static boolean insertarUsuario(Usuario nuevoUsuario) {
+        return insertarUsuario(
+                nuevoUsuario.getNombre(),
+                nuevoUsuario.getRut().toString(),
+                nuevoUsuario.getFechaNacimiento(),
+                nuevoUsuario.getNroTelefono()
+        );
     }
 
     public static List<Usuario> obtenerUsuarios() {
@@ -65,10 +83,10 @@ public class BaseDeDatos {
         String sql = "SELECT * FROM usuarios";
 
         try (Connection conn = conectar();
-             var stmt = conn.createStatement();
+             Statement stmt = conn.createStatement();
              var rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
 
+            while (rs.next()) {
                 String nombre = rs.getString("nombre");
                 String rutString = rs.getString("rut");
                 Date sqlDate = rs.getDate("fechaNacimiento");
@@ -76,9 +94,9 @@ public class BaseDeDatos {
                 String nroTelefono = rs.getString("nroTelefono");
 
                 try {
-                    Rut rut = Rut.valueOf(rutString);
+                    Rut rut = Rut.valueOf(rutString);  // Convierte el String a Rut
                     usuarios.add(new Usuario(nombre, rut, fechaNacimiento, nroTelefono));
-                } catch (IllegalAccessException e) {
+                } catch (IllegalArgumentException e) {
                     System.err.println("Error al convertir el RUT: " + rutString);
                     e.printStackTrace();
                 }
@@ -88,8 +106,5 @@ public class BaseDeDatos {
             e.printStackTrace();
         }
         return usuarios;
-
-
     }
-
 }

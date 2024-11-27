@@ -26,6 +26,10 @@ public class Persona {
         return rut;
     }
 
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
     public String getNroTelefono() {
         return nroTelefono;
     }
