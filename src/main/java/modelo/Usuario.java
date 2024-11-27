@@ -1,26 +1,39 @@
 package modelo;
 
-import java.time.LocalDate;
+import javax.persistence.*;
+import java.util.List;
+import java.util.ArrayList;
 
-public class Usuario extends Persona{
-    private Prestamo prestamoActual;
-    private EstadoUsuario estadoUsuario;
+@Entity
+public class Usuario {
 
-    public Usuario(String nombre, Rut rut, LocalDate fechaNacimiento, String nroTelefono) {
-        super(nombre, rut, fechaNacimiento, nroTelefono);
-        prestamoActual = null;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nombre;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Prestamo> prestamos = new ArrayList<>();
+
+    public Usuario(String nombre) {
+        this.nombre = nombre;
     }
 
-    public void agregarPrestamo(Prestamo prestamo){
-        this.prestamoActual = prestamo;
+    public void agregarPrestamo(Prestamo prestamo) {
+        this.prestamos.add(prestamo);
     }
 
-    public void eliminarPrestamo(){
-        this.prestamoActual = null;
+    // Métodos getter y setter
+    public Long getId() {
+        return id;
     }
 
-    public Prestamo getPrestamoActual() { // usar para realzar validaciones
-        return prestamoActual;
+    public String getNombre() {
+        return nombre;
     }
 
+    public List<Prestamo> getPrestamos() {
+        return prestamos;
+    }
 }

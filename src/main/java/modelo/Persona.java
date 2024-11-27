@@ -1,23 +1,44 @@
 package modelo;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 
-public class Persona {
-    private final String nombre;
-    private final Rut rut;
-    private final LocalDate fechaNacimiento;
-    private String nroTelefono; // no es final porque puede cambiar
-    private final HashSet<Rol> roles;
+@MappedSuperclass
+public abstract class Persona {
 
-    public Persona(String nombre, Rut rut, LocalDate fechaNacimiento, String nroTelefono) { // crear una persona sin roles inicialmente
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nombre;
+
+    @Embedded
+    private Rut rut;
+
+    private LocalDate fechaNacimiento;
+
+    private String nroTelefono; // no es final porque puede cambiar
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "persona_roles",
+            joinColumns = @JoinColumn(name = "persona_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
+
+    private HashSet<Rol> roles = new HashSet<>();
+
+    // Constructor
+    public Persona(String nombre, Rut rut, LocalDate fechaNacimiento, String nroTelefono) {
         this.nombre = nombre;
         this.rut = rut;
         this.fechaNacimiento = fechaNacimiento;
         this.nroTelefono = nroTelefono;
-        this.roles = new HashSet<>(2); // Sólo se aceptan dos roles como máximo: ESTUDIANTE y/o PROFESOR
+        this.roles = new HashSet<>(2);
     }
 
+    // Métodos getter y setter
     public String getNombre() {
         return nombre;
     }
@@ -34,7 +55,7 @@ public class Persona {
         return nroTelefono;
     }
 
-    public void setNroTelefono(String nroTelefono) { // Usar por si la persona necesita cambiar de número de contacto
+    public void setNroTelefono(String nroTelefono) {
         this.nroTelefono = nroTelefono;
     }
 
@@ -46,11 +67,11 @@ public class Persona {
         this.roles.add(rol);
     }
 
-    public boolean esProfesor(){
+    public boolean esProfesor() {
         return this.roles.contains(Rol.PROFESOR);
     }
 
-    public boolean esEstudiante(){
+    public boolean esEstudiante() {
         return this.roles.contains(Rol.ESTUDIANTE);
     }
 }

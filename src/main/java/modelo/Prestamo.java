@@ -1,40 +1,65 @@
 package modelo;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import javax.persistence.*;
+import java.io.Serializable;
 
-public class Prestamo {
-    private final LocalDate fecha;
-    private final LocalTime horaPrestamo, horaDevolucion;
-    private final Equipo equipo;
-    private final Usuario usuario;
+@Entity
+public class Prestamo implements Serializable {
 
-    public Prestamo(LocalDate fecha, LocalTime horaPrestamo, LocalTime horaDevolucion, Equipo equipo, Usuario usuario) {
-        this.fecha = fecha;
-        this.horaPrestamo = horaPrestamo;
-        this.horaDevolucion = horaDevolucion;
-        this.equipo = equipo;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String fechaPrestamo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")  // Columna de referencia
+    private Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "equipo_id", referencedColumnName = "id_equipo")
+    private Equipo equipo;
+
+
+    public Prestamo() {}
+
+
+    public Prestamo(String fechaPrestamo, Usuario usuario, Equipo equipo) {
+        this.fechaPrestamo = fechaPrestamo;
         this.usuario = usuario;
-        this.usuario.agregarPrestamo(this);
+        this.equipo = equipo;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
+
+    public Long getId() {
+        return id;
     }
 
-    public LocalTime getHoraPrestamo() {
-        return horaPrestamo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public LocalTime getHoraDevolucion() {
-        return horaDevolucion;
+    public String getFechaPrestamo() {
+        return fechaPrestamo;
+    }
+
+    public void setFechaPrestamo(String fechaPrestamo) {
+        this.fechaPrestamo = fechaPrestamo;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Equipo getEquipo() {
         return equipo;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public void setEquipo(Equipo equipo) {
+        this.equipo = equipo;
     }
 }

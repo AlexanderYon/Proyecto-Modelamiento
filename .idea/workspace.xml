@@ -9,11 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a05439c-00a3-440b-98cc-5c4a6a0790a7" name="Changes" comment="AVANCE BASE DE DATOS 2">
+    <list default="true" id="8a05439c-00a3-440b-98cc-5c4a6a0790a7" name="Changes" comment="SE AGREGO REGISTRAR, INSERTAR Y LISTARUSUARIO EN CONTROLADORPERSONA&#10;----------------------------------------------------&#10;EN PERSONA SE AGREGO EL GETFECHANACIMIENTO QUE FALTABA&#10;--------------------------------------------------&#10;EN BASEDEDATOS SE HIZO ALGO BASICO COMO INICIAR LA BASE DE DATOS, INSERTAR/REGISTRAR UN USUARIO, OBTENERUSUARIO AL IGUAL QUE SE PUSO TODO LO QUE TIENE QUE VER CON EL EQUIPO, COMO INSERTAR UN EQUIPO, VER CADA EQUIPO, EL ESTADO DEL EQUIPO, Y ACTULIZAR SU PRESTAMO&#10;----------------------------------------------------&#10;FINALMENTE  SE ACTUALIZO EL CONTROLADORBODEGA&#10;----------------------------------------------------&#10;FALTA MOLDEARLO PARA QUE SE USE CORRECTAMENTE COMO BASE DE DATOS EN EL SITIO WEB, PERO EL &quot;ESQUELETO&quot; ESTA LISTO">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/META-INF/persistence.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controlador/ControladorBodega.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controlador/ControladorBodega.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/modelo/BaseDeDatos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/modelo/BaseDeDatos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/modelo/Equipo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/modelo/Equipo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/modelo/Persona.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/modelo/Persona.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/modelo/Prestamo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/modelo/Prestamo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/modelo/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/modelo/Usuario.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +33,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="matias &lt;matias.valenzuela2301@alumnos.ubiobio.cl&gt;" />
+      </list>
+    </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="Yonatan" />
@@ -49,6 +57,9 @@
     &quot;accountId&quot;: &quot;0db86393-b3f4-427d-a487-07e1e69a565b&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/META-INF/persistence.xml" root0="SKIP_INSPECTION" />
+  </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
     <option name="FILTER_WARNINGS" value="false" />
@@ -222,7 +233,8 @@
       <updated>1732286381845</updated>
       <workItem from="1732286383111" duration="18790000" />
       <workItem from="1732656236371" duration="2841000" />
-      <workItem from="1732688156755" duration="5088000" />
+      <workItem from="1732688156755" duration="6247000" />
+      <workItem from="1732728655323" duration="3069000" />
     </task>
     <task id="LOCAL-00001" summary="AVANCE BASE DE DATOS">
       <option name="closed" value="true" />
@@ -248,7 +260,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732692556441</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="SE AGREGO REGISTRAR, INSERTAR Y LISTARUSUARIO EN CONTROLADORPERSONA&#10;----------------------------------------------------&#10;EN PERSONA SE AGREGO EL GETFECHANACIMIENTO QUE FALTABA&#10;--------------------------------------------------&#10;EN BASEDEDATOS SE HIZO ALGO BASICO COMO INICIAR LA BASE DE DATOS, INSERTAR/REGISTRAR UN USUARIO, OBTENERUSUARIO AL IGUAL QUE SE PUSO TODO LO QUE TIENE QUE VER CON EL EQUIPO, COMO INSERTAR UN EQUIPO, VER CADA EQUIPO, EL ESTADO DEL EQUIPO, Y ACTULIZAR SU PRESTAMO&#10;----------------------------------------------------&#10;FINALMENTE  SE ACTUALIZO EL CONTROLADORBODEGA&#10;----------------------------------------------------&#10;FALTA MOLDEARLO PARA QUE SE USE CORRECTAMENTE COMO BASE DE DATOS EN EL SITIO WEB, PERO EL &quot;ESQUELETO&quot; ESTA LISTO">
+      <option name="closed" value="true" />
+      <created>1732694551036</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732694551036</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -269,7 +289,8 @@
     <MESSAGE value="commit" />
     <MESSAGE value="AVANCE BASE DE DATOS" />
     <MESSAGE value="AVANCE BASE DE DATOS 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="AVANCE BASE DE DATOS 2" />
+    <MESSAGE value="SE AGREGO REGISTRAR, INSERTAR Y LISTARUSUARIO EN CONTROLADORPERSONA&#10;----------------------------------------------------&#10;EN PERSONA SE AGREGO EL GETFECHANACIMIENTO QUE FALTABA&#10;--------------------------------------------------&#10;EN BASEDEDATOS SE HIZO ALGO BASICO COMO INICIAR LA BASE DE DATOS, INSERTAR/REGISTRAR UN USUARIO, OBTENERUSUARIO AL IGUAL QUE SE PUSO TODO LO QUE TIENE QUE VER CON EL EQUIPO, COMO INSERTAR UN EQUIPO, VER CADA EQUIPO, EL ESTADO DEL EQUIPO, Y ACTULIZAR SU PRESTAMO&#10;----------------------------------------------------&#10;FINALMENTE  SE ACTUALIZO EL CONTROLADORBODEGA&#10;----------------------------------------------------&#10;FALTA MOLDEARLO PARA QUE SE USE CORRECTAMENTE COMO BASE DE DATOS EN EL SITIO WEB, PERO EL &quot;ESQUELETO&quot; ESTA LISTO" />
+    <option name="LAST_COMMIT_MESSAGE" value="SE AGREGO REGISTRAR, INSERTAR Y LISTARUSUARIO EN CONTROLADORPERSONA&#10;----------------------------------------------------&#10;EN PERSONA SE AGREGO EL GETFECHANACIMIENTO QUE FALTABA&#10;--------------------------------------------------&#10;EN BASEDEDATOS SE HIZO ALGO BASICO COMO INICIAR LA BASE DE DATOS, INSERTAR/REGISTRAR UN USUARIO, OBTENERUSUARIO AL IGUAL QUE SE PUSO TODO LO QUE TIENE QUE VER CON EL EQUIPO, COMO INSERTAR UN EQUIPO, VER CADA EQUIPO, EL ESTADO DEL EQUIPO, Y ACTULIZAR SU PRESTAMO&#10;----------------------------------------------------&#10;FINALMENTE  SE ACTUALIZO EL CONTROLADORBODEGA&#10;----------------------------------------------------&#10;FALTA MOLDEARLO PARA QUE SE USE CORRECTAMENTE COMO BASE DE DATOS EN EL SITIO WEB, PERO EL &quot;ESQUELETO&quot; ESTA LISTO" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
