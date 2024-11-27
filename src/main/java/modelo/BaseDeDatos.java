@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
+import java.sql.Date;
 
 public class BaseDeDatos {
     private static final String URL = "jdbc:sqlite:mi_base_de_datos.db";
@@ -25,19 +27,6 @@ public class BaseDeDatos {
             e.printStackTrace();
         }
         return conexion;
-    }
-
-    public static void verificarConexion() {
-        try (Connection conn = conectar()) {
-            if (conn != null) {
-                System.out.println("La conexión a la base de datos es válida.");
-            } else {
-                System.out.println("No se pudo establecer conexión.");
-            }
-        } catch (Exception e) {
-            System.err.println("Error al verificar la conexión.");
-            e.printStackTrace();
-        }
     }
 
     public static void inicializarBaseDeDatos() {
@@ -79,16 +68,28 @@ public class BaseDeDatos {
              var stmt = conn.createStatement();
              var rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                int id = rs.getInt("id");
+
                 String nombre = rs.getString("nombre");
-                int edad = rs.getInt("edad");
-                usuarios.add(new Usuario(id, nombre, edad));
+                String rutString = rs.getString("rut");
+                Date sqlDate = rs.getDate("fechaNacimiento");
+                LocalDate fechaNacimiento = (sqlDate != null) ? sqlDate.toLocalDate() : null;
+                String nroTelefono = rs.getString("nroTelefono");
+
+                try {
+                    Rut rut = Rut.valueOf(rutString);
+                    usuarios.add(new Usuario(nombre, rut, fechaNacimiento, nroTelefono));
+                } catch (IllegalAccessException e) {
+                    System.err.println("Error al convertir el RUT: " + rutString);
+                    e.printStackTrace();
+                }
             }
         } catch (Exception e) {
             System.err.println("Error al obtener usuarios.");
             e.printStackTrace();
         }
         return usuarios;
+
+
     }
 
 }
