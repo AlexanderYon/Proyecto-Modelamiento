@@ -1,21 +1,22 @@
 package modelo;
 
 public class Equipo {
-    // El id de equipo puede ser lo que la organización decida;
-    // puede ser un número de identificación, un nombre, un número de serie, código de producto, etc.
     private final String idEquipo, marca, modelo;
     private String descripcion;
-
-
     private EstadoEquipo estado;
     private Prestamo prestamo;
 
-    public Equipo(String idEquipo, String marca, String modelo, String descripcion) {
+    public Equipo(String idEquipo, String marca, String modelo, String descripcion, EstadoEquipo estado) {
         this.idEquipo = idEquipo;
         this.marca = marca;
         this.modelo = modelo;
         this.descripcion = descripcion;
-        this.estado = EstadoEquipo.UTILIZABLE; // todos los equipos se crean utilizables por defecto
+        this.estado = estado;
+    }
+
+    // Métodos getter y setter
+    public String getIdEquipo() {
+        return idEquipo;
     }
 
     public String getMarca() {
@@ -26,19 +27,16 @@ public class Equipo {
         return modelo;
     }
 
-    public String getIdEquipo() {
-        return idEquipo;
-    }
-
     public String getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
     public EstadoEquipo getEstado() {
         return estado;
+    }
+
+    public void setEstado(EstadoEquipo estado) {
+        this.estado = estado;
     }
 
     public Prestamo getPrestamo() {
