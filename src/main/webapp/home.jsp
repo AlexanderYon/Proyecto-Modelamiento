@@ -132,10 +132,11 @@
 <body>
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
+        <div id="wrapper" class="d-flex">
         <div class="bg-dark border-right" id="sidebar-wrapper" style="min-width: 250px;">
             <div class="sidebar-heading text-white">Menú</div>
             <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Inicio</a>
+                <a href="home.jsp" class="list-group-item list-group-item-action bg-dark text-white">Inicio</a>
                 <div class="list-group-item bg-dark text-white">
                     <a class="text-white text-decoration-none" data-bs-toggle="collapse" href="#prestamosSubmenu" role="button" aria-expanded="false" aria-controls="prestamosSubmenu">
                         Prestamos de Equipos
@@ -143,21 +144,21 @@
                     <div class="collapse" id="prestamosSubmenu">
                         <a href="nuevoPrestamo.jsp" class="list-group-item list-group-item-action bg-secondary text-white">Prestar Equipo</a>
                         <a href="devolverEquipo.jsp" class="list-group-item list-group-item-action bg-secondary text-white">Devolver Equipo</a>
-                        <a href="#" class="list-group-item list-group-item-action bg-secondary text-white">Ver Prestamos Actuales</a>
+                        <a href="verPrestamos.jsp" class="list-group-item list-group-item-action bg-secondary text-white">Ver Prestamos Actuales</a>
                     </div>
                 </div>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Inventario</a>
+                <a href="inventario.jsp" class="list-group-item list-group-item-action bg-dark text-white">Inventario</a>
                 <div class="list-group-item bg-dark text-white">
                     <a class="text-white text-decoration-none" data-bs-toggle="collapse" href="#reportesSubmenu" role="button" aria-expanded="false" aria-controls="reportesSubmenu">
                         Informes
                     </a>
                     <div class="collapse" id="reportesSubmenu">
-                        <a href="#" class="list-group-item list-group-item-action bg-secondary text-white">Reporte 1</a>
-                        <a href="#" class="list-group-item list-group-item-action bg-secondary text-white">Reporte 2</a>
-                        <a href="#" class="list-group-item list-group-item-action bg-secondary text-white">Reporte 3</a>
+                        <a href="reporte1.jsp" class="list-group-item list-group-item-action bg-secondary text-white">Reporte 1</a>
+                        <a href="reporte2.jsp" class="list-group-item list-group-item-action bg-secondary text-white">Reporte 2</a>
+                        <a href="reporte3.jsp" class="list-group-item list-group-item-action bg-secondary text-white">Reporte 3</a>
                     </div>
                 </div>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Cerrar sesión</a>
+                <a href="cerrarSesion.jsp" class="list-group-item list-group-item-action bg-dark text-white">Cerrar sesión</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -198,7 +199,10 @@
             </div>
         </div>
         <!-- /#page-content-wrapper -->
+
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
