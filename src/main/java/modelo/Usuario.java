@@ -16,6 +16,13 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Prestamo> prestamos = new ArrayList<>();
 
+    public Usuario() {
+        id=null;
+        nombre=null;
+    }
+
+    
+    
     public Usuario(String nombre) {
         this.nombre = nombre;
     }

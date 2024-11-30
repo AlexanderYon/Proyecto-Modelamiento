@@ -22,9 +22,9 @@ public class ControladorPersonas {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-mm-yyyy");
             LocalDate fecha = LocalDate.parse(fechaNacimiento, formatter);
 
-            Usuario nuevoUsuario = new Usuario(nombre, rut, fecha, nroTelefono);
+            /*Usuario nuevoUsuario = new Usuario(nombre, rut, fecha, nroTelefono);
 
-            BaseDeDatos.insertarUsuario(nuevoUsuario);
+            BaseDeDatos.insertarUsuario(nuevoUsuario); TIRA ERROR*/
 
         } catch (IllegalAccessException e) {
             System.err.println("Error al crear el RUT: " + rutString);
