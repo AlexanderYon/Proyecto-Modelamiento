@@ -8,33 +8,33 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inicio de Sesión</title>
-  <link rel="stylesheet" href="style.css" />
-  <!-- Font Awesome CDN link for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-</head>
-<body>
-  <div class="wrapper">
-    <div class="title"><span>Inicio de Sesión</span></div>
-    <form action="LoginServlet">
-      <div class="row">
-        <i class="fas fa-id-card"></i>
-        <input type="text" name="rut" placeholder="RUT (ej. 12.345.678-9)" required />
-      </div>
-      <div class="row">
-        <i class="fas fa-lock"></i>
-        <input type="password" name="contraseña" placeholder="Contraseña" required />
-      </div>
-      <div class="pass"><a href="#"></a></div>
-      <div class="row button">
-        <input type="submit" value="Login" />
-      </div>
-      <div class="signup-link">
-        <a href="register.jsp">Registrarse</a>
-      </div>
-    </form>
-  </div>
-</body>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Inicio de Sesión</title>
+        <link rel="stylesheet" href="style.css" />
+        <!-- Font Awesome CDN link for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="title"><span>Inicio de Sesión</span></div>
+            <form action="LoginServlet">
+                <div class="row">
+                    <i class="fas fa-id-card"></i>
+                    <input type="text" name="rut" placeholder="RUT (ej. 12.345.678-9)" required />
+                </div>
+                <div class="row">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="contraseña" placeholder="Contraseña" required />
+                </div>
+                <div class="pass"><a href="#"></a></div>
+                <div class="row button">
+                    <input type="submit" value="Login" />
+                </div>
+                <div class="signup-link">
+                    <a href="register.jsp">Registrarse</a>
+                </div>
+            </form>
+        </div>
+    </body>
 </html>
