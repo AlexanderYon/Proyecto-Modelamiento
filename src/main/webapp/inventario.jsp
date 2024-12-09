@@ -175,24 +175,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Datos de ejemplo -->
-                <tr>
-                    <td>1</td>
-                    <td>Notebook HP</td>
-                    <td>16GB RAM, SSD 512GB</td>
-                    <td>
-                        <button class="btn btn-delete" onclick="eliminarEquipo(this)">Eliminar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Mouse Logitech</td>
-                    <td>Inalámbrico</td>
-                    <td>
-                        <button class="btn btn-delete" onclick="eliminarEquipo(this)">Eliminar</button>
-                    </td>
-                </tr>
-                <!-- Fin de datos de ejemplo -->
+                <!-- Aquí irá la lista de todos los equipos -->
             </tbody>
         </table>
 
@@ -234,45 +217,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Función para eliminar equipo
-        function eliminarEquipo(btn) {
+        function eliminarEquipo(){
             if (confirm("¿Estás seguro de que deseas eliminar este equipo?")) {
-                // Obtener la fila correspondiente al botón presionado
-                const row = btn.parentNode.parentNode;
-
-                // Obtener el ID del equipo desde la fila
-                const equipoId = row.querySelector("td:first-child").textContent; // Suponemos que el ID está en la primera columna
-
-                console.log("Equipo id: " + equipoId);
-
-                // Crear un objeto JSON con el ID del equipo
-                const data = JSON.stringify({ id: equipoId });
-
-                // Enviar la solicitud POST al servlet
-                fetch('/SvEliminarEquipo', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: data
-                })
-                .then(response => response.json())
-                .then(result => {
-                    // Verificar si la eliminación fue exitosa
-                    if (result.success) {
-                        // Si la eliminación fue exitosa, eliminar la fila de la tabla
-                        row.parentNode.removeChild(row);
-                    } else {
-                        alert("Hubo un problema al eliminar el equipo.");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al eliminar el equipo:', error);
-                    alert("Hubo un error al comunicarse con el servidor.");
-                });
+                row.parentNode.removeChild(row);
             }
-}
-
+        }
     </script>
     <script>
         // función para agregar equipo a la lista gráfica
@@ -316,12 +265,49 @@
                     newRow.appendChild(cellDescription);
 
                     // Crear la celda para el botón eliminar
+                    //const cellActions = document.createElement("td");
+                    //const deleteButton = document.createElement("button");
+                    //deleteButton.classList.add("btn", "btn-delete");
+                    //deleteButton.textContent = "Eliminar";
+                    //deleteButton.onclick = function() { eliminarEquipo(deleteButton); };
+                    //cellActions.appendChild(deleteButton);
+                    //newRow.appendChild(cellActions);
+                     
+                    
+                    // < --------- Botón Eliminar --------> 
+                    
+                    
+                    // Crear la celda para el botón eliminar
                     const cellActions = document.createElement("td");
+
+                    // Crear el formulario
+                    const form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "SvEliminarEquipo";
+
+                    // Crear un campo oculto para enviar el ID del equipo
+                    const hiddenInput = document.createElement("input");
+                    hiddenInput.type = "hidden";
+                    hiddenInput.name = "id";
+                    hiddenInput.value = data.id; // Usamos el ID del equipo recibido
+                    form.appendChild(hiddenInput);
+
+                    // Crear el botón de enviar
                     const deleteButton = document.createElement("button");
+                    deleteButton.type = "submit"; // Botón de tipo submit
                     deleteButton.classList.add("btn", "btn-delete");
                     deleteButton.textContent = "Eliminar";
-                    deleteButton.onclick = function() { eliminarEquipo(deleteButton); };
-                    cellActions.appendChild(deleteButton);
+                    
+                    // Agregar confirmación al botón
+                    deleteButton.onclick = function (event) {
+                        if (!confirm("¿Estás seguro de que deseas eliminar este elemento?")) {
+                            event.preventDefault(); // Detener el envío del formulario si el usuario cancela
+                        }
+                    };
+           
+                    // Añadir el formulario a la celda
+                    form.appendChild(deleteButton);
+                    cellActions.appendChild(form);
                     newRow.appendChild(cellActions);
 
                     tableBody.appendChild(newRow);

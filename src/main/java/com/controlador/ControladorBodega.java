@@ -14,7 +14,7 @@ public class ControladorBodega {
     }
     
     public static boolean eliminarEquipo(String id){
-        System.out.println("Imprimiendo datos recibidos para registro de equipo");
+        System.out.println("Imprimiendo datos recibidos para eliminación de equipo");
         System.out.println(id);
         return true;
     }

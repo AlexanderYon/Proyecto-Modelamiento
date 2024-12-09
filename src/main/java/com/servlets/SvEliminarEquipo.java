@@ -64,31 +64,11 @@ public class SvEliminarEquipo extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // Leer el cuerpo de la solicitud
-        StringBuilder stringBuilder = new StringBuilder();
-        BufferedReader reader = request.getReader();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            stringBuilder.append(line);
-        }
-
-        // Convertir el cuerpo de la solicitud en un objeto JSON
-        String jsonString = stringBuilder.toString();
-        JSONObject jsonObject = new JSONObject(jsonString);
-
-        // Obtener el ID del equipo desde el JSON
-        String equipoId = jsonObject.getString("id");
+        // Redirigir a la misma página para evitar redireccionamiento innecesarios
+        response.sendRedirect(request.getContextPath() + "/inventario.jsp");
         
-        
-        System.out.println("Equipo Id recibido por servlet: " + equipoId);
-
-        // Lógica para eliminar el equipo en la base de datos
-        boolean success = ControladorBodega.eliminarEquipo(equipoId);
-
-        // Enviar la respuesta en formato JSON
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        out.println("{\"success\": " + success + "}");
+        String id = request.getParameter("id"); // ID del equipo
+        boolean eliminado = ControladorBodega.eliminarEquipo(id); // Lógica para eliminar el equipo
     }
 
     /**
