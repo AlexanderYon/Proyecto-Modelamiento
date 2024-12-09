@@ -299,9 +299,16 @@
                     deleteButton.textContent = "Eliminar";
                     
                     // Agregar confirmación al botón
-                    deleteButton.onclick = function (event) {
-                        if (!confirm("¿Estás seguro de que deseas eliminar este elemento?")) {
-                            event.preventDefault(); // Detener el envío del formulario si el usuario cancela
+                    deleteButton.onclick = function () {
+                        //if (!confirm("¿Estás seguro de que deseas eliminar este elemento?")) {
+                        //    event.preventDefault(); // Detener el envío del formulario si el usuario cancela
+                        //}
+                        
+                        // Confirmar la eliminación
+                        if (confirm("¿Seguro que deseas eliminar este préstamo?")) {
+                            // Eliminar la fila de la tabla
+                            var row = this.parentNode.parentNode.parentNode;
+                            row.parentNode.removeChild(row);
                         }
                     };
            
