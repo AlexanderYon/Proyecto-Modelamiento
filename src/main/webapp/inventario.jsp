@@ -305,7 +305,7 @@
                         //}
                         
                         // Confirmar la eliminación
-                        if (confirm("¿Seguro que deseas eliminar este préstamo?")) {
+                        if (confirm("¿Seguro que deseas eliminar este equipo?")) {
                             // Eliminar la fila de la tabla
                             var row = this.parentNode.parentNode.parentNode;
                             row.parentNode.removeChild(row);

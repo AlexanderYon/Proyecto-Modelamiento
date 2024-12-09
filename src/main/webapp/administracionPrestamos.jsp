@@ -170,22 +170,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Datos de Préstamos - Ejemplo estático -->
-                <tr>
-                    <td>001</td>
-                    <td>Juan Pérez</td>
-                    <td>12345678-9</td>
-                    <td>10:00</td>
-                    <td><button class="btn-delete" onclick="eliminarPrestamo(this)">Eliminar</button></td>
-                </tr>
-                <tr>
-                    <td>002</td>
-                    <td>Maria Gómez</td>
-                    <td>98765432-1</td>
-                    <td>11:30</td>
-                    <td><button class="btn-delete" onclick="eliminarPrestamo(this)">Eliminar</button></td>
-                </tr>
-                <!-- Fin de datos de ejemplo -->
+                <!-- Aquí irá la lista de todos los prestamos -->
             </tbody>
         </table>
 
@@ -201,25 +186,28 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        
+                        <!-- Formulario para registrar un nuevo prestamo -->
+                        
+                        <form id="formNuevoPrestamo" onsubmit="agregarPrestamo(event)" action="SvRegistrarPrestamo" method="post">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre Completo</label>
-                                <input type="text" class="form-control" id="nombre" placeholder="Ingresa el nombre completo" required>
+                                <input type="text" class="form-control" id="nombre" name="nombreUsuario" placeholder="Ingresa el nombre completo" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="rut" class="form-label">RUT</label>
-                                <input type="text" class="form-control" id="rut" placeholder="Ingresa el RUT" required>
+                                <input type="text" class="form-control" id="rut" name="rutUsuario" placeholder="Ingresa el RUT" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="horaEstimada" class="form-label">Hora Estimada de Uso</label>
-                                <input type="time" class="form-control" id="horaEstimada" required>
+                                <input type="time" class="form-control" id="horaEstimada" name="horaEstimada" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="motivo" class="form-label">Motivo del Préstamo</label>
-                                <textarea class="form-control" id="motivo" rows="3" placeholder="Describe el motivo del préstamo" required></textarea>
+                                <textarea class="form-control" id="motivo" rows="3" name="motivo" placeholder="Describe el motivo del préstamo" required></textarea>
                             </div>
 
                             <div class="d-grid gap-2">
@@ -243,6 +231,104 @@
                 row.parentNode.removeChild(row);
             }
         }
+    </script>
+    <script>
+        function agregarPrestamo(event){
+            event.preventDefault(); // Prevenir recarga de la página
+
+            const form = document.getElementById("formNuevoPrestamo");
+
+            // Crear un objeto FormData para capturar los datos del formulario
+            const formData = new FormData(form);
+            
+            // Enviar datos al servlet mediante fetch
+            fetch("SvRegistrarPrestamo", {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.json()) // Suponemos que el servlet devuelve JSON
+            .then(data => {
+                
+                if (data.success) {
+                    // Crear una nueva fila en la tabla con los datos recibidos
+                    const tableBody = document.querySelector("table tbody");
+                    
+                    const newRow = document.createElement("tr");
+                    
+                    // Asignar los datos de la respuesta a las celdas
+                    const cellRut = document.createElement("td");
+                    cellRut.textContent = data.rutUsuario;
+                    newRow.appendChild(cellRut);
+
+                    const cellNombre = document.createElement("td");
+                    cellNombre.textContent = data.nombreUsuario;
+                    newRow.appendChild(cellNombre);
+
+                    const cellHoraEstimada = document.createElement("td");
+                    cellHoraEstimada.textContent = data.horaEstimada;
+                    newRow.appendChild(cellHoraEstimada);
+                    
+                    const cellMotivo = document.createElement("td");
+                    cellMotivo.textContent = data.motivo;
+                    newRow.appendChild(cellMotivo);
+
+
+                    // < --------- Botón Eliminar --------> 
+                    
+                    
+                    // Crear la celda para el botón eliminar
+                    const cellActions = document.createElement("td");
+
+                    // Crear el formulario
+                    const form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "SvEliminarPrestamo";
+
+                    // Crear un campo oculto para enviar el ID del equipo
+                    const hiddenInput = document.createElement("input");
+                    hiddenInput.type = "hidden";
+                    hiddenInput.name = "id";
+                    hiddenInput.value = data.id; // Usamos el ID del equipo recibido
+                    form.appendChild(hiddenInput);
+
+                    // Crear el botón de enviar
+                    const deleteButton = document.createElement("button");
+                    deleteButton.type = "submit"; // Botón de tipo submit
+                    deleteButton.classList.add("btn", "btn-delete");
+                    deleteButton.textContent = "Eliminar";
+                    
+                    // Agregar confirmación al botón
+                    deleteButton.onclick = function () {
+                        
+                        // Confirmar la eliminación
+                        if (confirm("¿Seguro que deseas eliminar este préstamo?")) {
+                            // Eliminar la fila de la tabla
+                            var row = this.parentNode.parentNode.parentNode;
+                            row.parentNode.removeChild(row);
+                        }
+                    };
+           
+                    // Añadir el formulario a la celda
+                    form.appendChild(deleteButton);
+                    cellActions.appendChild(form);
+                    newRow.appendChild(cellActions);
+
+                    tableBody.appendChild(newRow);
+
+                    // Limpiar el formulario y cerrar el modal
+                    form.reset();
+                    const modal = bootstrap.Modal.getInstance(document.getElementById("nuevoPrestamoModal"));
+                    modal.hide();
+                } else {
+                    alert("Error al añadir el préstamo: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Ocurrió un error al procesar la solicitud.");
+            });
+        }
+        
     </script>
 
 </body>
