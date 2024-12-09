@@ -1,4 +1,4 @@
-package com.mycompany.proyecto.modelamiento;
+
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;

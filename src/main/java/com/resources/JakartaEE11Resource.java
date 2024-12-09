@@ -1,4 +1,4 @@
-package com.mycompany.proyecto.modelamiento.resources;
+package com.resources;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
