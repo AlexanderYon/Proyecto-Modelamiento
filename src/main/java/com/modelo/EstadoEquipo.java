@@ -1,5 +1,7 @@
 package com.modelo;
 
-public enum EstadoEquipo {
+import java.io.Serializable;
+
+public enum EstadoEquipo implements Serializable{
     UTILIZABLE, INUTILIZABLE
 }

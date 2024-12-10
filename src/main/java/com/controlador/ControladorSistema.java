@@ -1,20 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.controlador;
 
-import com.modelo.Equipo;
-import com.modelo.Persona;
-import com.modelo.Rut;
+import com.modelo.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import com.modelo.Prestamo;
 
 /**
  *
@@ -40,33 +35,62 @@ public class ControladorSistema {
         return INSTANCE;
     }
     
-    public boolean registrarEquipo(String id, String nombre, String descripcion){
+    public boolean registrarEquipo(String id, String marca, String descripcion){
         
-        // PARA DEBUGEAR
-        System.out.println("Imprimiendo datos recibidos para registro de equipo");
-        System.out.println(id + " - " + nombre + " - " + descripcion);
-        return true;
+        // REEMPLAZAR LUEGO
+        for(Equipo equipo:listaEquipos){ // si ya está retorna falso
+            if(equipo.getIdEquipo().equalsIgnoreCase(id)){
+                return false;
+            }
+        }
+        return listaEquipos.add(new Equipo(id,marca,descripcion));
     }
     
     public boolean eliminarEquipo(String id){
-        System.out.println("Imprimiendo datos recibidos para registro de equipo");
-        System.out.println(id);
-        return true;
+        for(Equipo equipo:listaEquipos){
+            if(equipo.getIdEquipo().equalsIgnoreCase(id)){
+                return listaEquipos.remove(equipo); // lo encontró y lo borró correctamente
+            }
+        }
+        return false; // falso si no existia equipo en sistema
+    }
+    public boolean registrarUsuario(String nombre, String rut, String fechaNacimiento, String nroTelefono) throws IllegalAccessException{
+        for(Persona persona:listaPersonas){
+            if(persona.getRut().equals(Rut.valueOf(rut))){
+                return false; // persona ya está en el sistema
+            }
+        }
+        return listaPersonas.add(new Persona(nombre,Rut.valueOf(rut),fechaNacimiento,nroTelefono));
     }
     
-    public boolean registrarPrestamo(String rutUsuario, String nombreUsuario, String idEquipo, String fecha, String motivo){
-        return true;
-    }
-    
-    public boolean eliminarPrestamo(String idEquipo){
-        return true;
-    }
-    
-    public boolean registrarUsuario(String nombre, String rut, String fechaNacimiento, String nroTelefono){
-       return true;
-    }
-    
-    public boolean eliminarUusario(String rut){ // no estoy tan seguro de si esto sea útil ya
+    public boolean registrarPrestamo(String nombre, String rut, String idEquipo,LocalTime horaDevolucion) throws IllegalAccessException{
+        Usuario personaEncontrada=null;
+        Equipo equipoEncontrado=null;
+        for(Persona persona:listaPersonas){
+            if(persona.getRut().equals(Rut.valueOf(rut))){
+                personaEncontrada=(Usuario)persona;
+            }
+        }
+        for(Equipo equipo:listaEquipos){
+            if(equipo.getIdEquipo().equalsIgnoreCase(idEquipo)){
+                equipoEncontrado=equipo;
+            }
+        }
+        if(personaEncontrada==null){ // no se encontró persona 
+            registrarUsuario(nombre,rut,"auxiliar","auxiliar");
+        }
+        if(equipoEncontrado==null){ // no se encontró equipo
+            return false;
+        }
+        for(Prestamo prestamo:listaPrestamos){
+            if(prestamo.getEquipo().getIdEquipo().equalsIgnoreCase(idEquipo)){
+                return false; // equipo ya está en prestamo
+            }
+        }
+        Prestamo nuevoPrestamo = new Prestamo(LocalDate.now(),LocalTime.now(),horaDevolucion,equipoEncontrado,personaEncontrada);
+        listaPrestamos.add(nuevoPrestamo);
+        personaEncontrada.agregarPrestamo(nuevoPrestamo);
+        equipoEncontrado.setPrestamo(nuevoPrestamo);
         return true;
     }
     
@@ -82,4 +106,5 @@ public class ControladorSistema {
         INSTANCE = (ControladorSistema)datos.readObject();
         datos.close();
     }
+
 }

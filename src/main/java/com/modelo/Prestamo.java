@@ -1,9 +1,10 @@
 package com.modelo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Prestamo {
+public class Prestamo implements Serializable{
     private final LocalDate fecha;
     private final LocalTime horaPrestamo, horaDevolucion;
     private final Equipo equipo;

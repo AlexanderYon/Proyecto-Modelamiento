@@ -1,5 +1,7 @@
 package com.modelo;
 
-public enum EstadoUsuario {
+import java.io.Serializable;
+
+public enum EstadoUsuario implements Serializable{
     ACTIVO, VETADO
 }

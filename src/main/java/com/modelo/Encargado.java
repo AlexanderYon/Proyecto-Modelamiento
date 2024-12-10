@@ -9,7 +9,7 @@ public class Encargado extends Persona{
     private String contrasenia;
     private ArrayList<Prestamo> prestamos;
 
-    public Encargado(String nombre, Rut rut, LocalDate fechaNacimiento, String nroTelefono, String contrasenia) {
+    public Encargado(String nombre, Rut rut, String fechaNacimiento, String nroTelefono) {
         super(nombre, rut, fechaNacimiento, nroTelefono);
         this.prestamos = new ArrayList<>();
         this.contrasenia = contrasenia;

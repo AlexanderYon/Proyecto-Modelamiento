@@ -1,5 +1,7 @@
 package com.modelo;
 
-public enum Rol {
+import java.io.Serializable;
+
+public enum Rol implements Serializable{
     ESTUDIANTE, PROFESOR
 }
