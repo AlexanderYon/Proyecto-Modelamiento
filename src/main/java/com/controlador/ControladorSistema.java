@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.HashMap;
  *
  * @author benja
  */
-public class ControladorSistema {
+public class ControladorSistema implements Serializable {
     private ArrayList<Equipo> listaEquipos;
     private ArrayList<Prestamo> listaPrestamos;
     private ArrayList<Persona> listaPersonas;
