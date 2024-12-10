@@ -52,4 +52,12 @@ public class Equipo implements Serializable {
         this.estado = (estado == EstadoEquipo.UTILIZABLE) ? EstadoEquipo.INUTILIZABLE : EstadoEquipo.UTILIZABLE;
     }
     
+    public void cambiarEstadoPrestamo(){
+        if(estaPrestado){
+            estaPrestado=false;
+            return;
+        }
+        estaPrestado=true;
+    }
+    
 }

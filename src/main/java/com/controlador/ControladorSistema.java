@@ -91,7 +91,19 @@ public class ControladorSistema {
         listaPrestamos.add(nuevoPrestamo);
         personaEncontrada.agregarPrestamo(nuevoPrestamo);
         equipoEncontrado.setPrestamo(nuevoPrestamo);
+        equipoEncontrado.cambiarEstadoPrestamo();
         return true;
+    }
+    
+    public boolean eliminarPrestamo(String nombre, String rut, String idEquipo) throws IllegalAccessException{
+        for(Prestamo prestamo:listaPrestamos){
+            if(prestamo.getUsuario().getRut().equals(Rut.valueOf(rut)) && prestamo.getEquipo().getIdEquipo().equalsIgnoreCase(idEquipo)){
+                prestamo.getUsuario().eliminarPrestamo();
+                prestamo.getEquipo().cambiarEstadoPrestamo();
+                return listaPrestamos.remove(prestamo);
+            }
+        }
+        return false; // no habia prestamo con los datos
     }
     
     public void guardarDatosSistema() throws IOException {
