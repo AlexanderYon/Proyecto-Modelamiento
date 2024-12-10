@@ -4,7 +4,7 @@
  */
 package com.servlets;
 
-import com.controlador.ControladorBodega;
+import com.controlador.ControladorSistema;
 import jakarta.json.JsonObject;
 import jakarta.json.stream.JsonParser;
 import java.io.IOException;
@@ -68,7 +68,7 @@ public class SvEliminarEquipo extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/inventario.jsp");
         
         String id = request.getParameter("id"); // ID del equipo
-        boolean eliminado = ControladorBodega.eliminarEquipo(id); // Lógica para eliminar el equipo
+        boolean eliminado = ControladorSistema.getInstance().eliminarEquipo(id); // Lógica para eliminar el equipo
     }
 
     /**

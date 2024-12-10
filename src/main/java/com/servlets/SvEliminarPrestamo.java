@@ -4,6 +4,7 @@
  */
 package com.servlets;
 
+import com.controlador.ControladorSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -71,7 +72,11 @@ public class SvEliminarPrestamo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // Redirigir a la misma página para evitar redireccionamiento innecesarios
+        response.sendRedirect(request.getContextPath() + "/administracionPrestamos.jsp");
+        
+        String idEquipoPrestado = request.getParameter("id"); // ID del equipo
+        boolean eliminado = ControladorSistema.getInstance().eliminarPrestamo(idEquipoPrestado); // Lógica para eliminar el equipo
     }
 
     /**

@@ -8,14 +8,17 @@ public class Prestamo {
     private final LocalTime horaPrestamo, horaDevolucion;
     private final Equipo equipo;
     private final Usuario usuario;
+    private final Encargado encragado;
 
-    public Prestamo(LocalDate fecha, LocalTime horaPrestamo, LocalTime horaDevolucion, Equipo equipo, Usuario usuario) {
+    public Prestamo(LocalDate fecha, LocalTime horaPrestamo, LocalTime horaDevolucion, Equipo equipo, Usuario usuario, Encargado encargado) {
         this.fecha = fecha;
         this.horaPrestamo = horaPrestamo;
         this.horaDevolucion = horaDevolucion;
         this.equipo = equipo;
         this.usuario = usuario;
         this.usuario.agregarPrestamo(this);
+        this.encragado = encargado;
+        this.encragado.agregarPrestamo(this);
     }
 
     public LocalDate getFecha() {

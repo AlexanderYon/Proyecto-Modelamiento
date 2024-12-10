@@ -162,10 +162,11 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Número de Equipo</th>
-                    <th>Nombre de Usuario</th>
+                    <th>Id Equipo</th>
                     <th>RUT</th>
-                    <th>Hora de Uso</th>
+                    <th>Nombre Usuario</th>
+                    <th>Hora Límite</th>
+                    <th>Motivo</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -190,26 +191,38 @@
                         <!-- Formulario para registrar un nuevo prestamo -->
                         
                         <form id="formNuevoPrestamo" onsubmit="agregarPrestamo(event)" action="SvRegistrarPrestamo" method="post">
-                            <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre Completo</label>
-                                <input type="text" class="form-control" id="nombre" name="nombreUsuario" placeholder="Ingresa el nombre completo" required>
-                            </div>
-
+                            
+                            <!-- RUT Usuario -->
                             <div class="mb-3">
                                 <label for="rut" class="form-label">RUT</label>
                                 <input type="text" class="form-control" id="rut" name="rutUsuario" placeholder="Ingresa el RUT" required>
                             </div>
+                            
+                            <!-- Nombre Usuario -->
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre Completo</label>
+                                <input type="text" class="form-control" id="nombre" name="nombreUsuario" placeholder="Ingresa el nombre completo" required>
+                            </div>
+                            
+                            <!-- Id Equipo -->
+                            <div class="mb-3">
+                                <label for="id" class="form-label">Id Equipo</label>
+                                <input type="text" class="form-control" id="id" name="idEquipo" placeholder="Ingresa el Id del equipo" required>
+                            </div>
 
+                            <!-- Hora Estimada -->
                             <div class="mb-3">
                                 <label for="horaEstimada" class="form-label">Hora Estimada de Uso</label>
                                 <input type="time" class="form-control" id="horaEstimada" name="horaEstimada" required>
                             </div>
 
+                            <!-- Motivo -->
                             <div class="mb-3">
                                 <label for="motivo" class="form-label">Motivo del Préstamo</label>
                                 <textarea class="form-control" id="motivo" rows="3" name="motivo" placeholder="Describe el motivo del préstamo" required></textarea>
                             </div>
-
+                            
+                            <!-- Botón de confirmación -->
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-secondary">Registrar Préstamo</button>
                             </div>
@@ -221,17 +234,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Función para eliminar préstamo JAVASCRIPT, BORRAR NOMAS
-        function eliminarPrestamo(btn) {
-            // Confirmar la eliminación
-            if (confirm("¿Seguro que deseas eliminar este préstamo?")) {
-                // Eliminar la fila de la tabla
-                var row = btn.parentNode.parentNode;
-                row.parentNode.removeChild(row);
-            }
-        }
-    </script>
     <script>
         function agregarPrestamo(event){
             event.preventDefault(); // Prevenir recarga de la página
@@ -255,6 +257,10 @@
                     
                     const newRow = document.createElement("tr");
                     
+                    const cellId = document.createElement("td");
+                    cellId.textContent = data.idEquipo;
+                    newRow.appendChild(cellId);
+
                     // Asignar los datos de la respuesta a las celdas
                     const cellRut = document.createElement("td");
                     cellRut.textContent = data.rutUsuario;

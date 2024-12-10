@@ -3,8 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package com.servlets;
-
-import com.controlador.ControladorBodega;
+import com.controlador.ControladorSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -65,21 +64,24 @@ public class SvRegistrarPrestamo extends HttpServlet {
         String  rutUsuario = request.getParameter("rutUsuario"),
                 nombreUsuario = request.getParameter("nombreUsuario"),
                 horaEstimada = request.getParameter("horaEstimada"),
-                motivo = request.getParameter("motivo");
+                motivo = request.getParameter("motivo"),
+                idEquipo = request.getParameter("idEquipo");
         
-        System.out.println("DATOS DE PRESTAMO NUEVO");
-        System.out.println("rut: " + rutUsuario);
-        System.out.println("nombre: " + nombreUsuario);
-        System.out.println("hora: " + horaEstimada);
-        System.out.println("motivo: " + motivo);
+        //System.out.println("DATOS DE PRESTAMO NUEVO");
+        //System.out.println("rut: " + rutUsuario);
+        //System.out.println("nombre: " + nombreUsuario);
+        //System.out.println("id equipo: " + idEquipo);
+        //System.out.println("hora: " + horaEstimada);
+        //System.out.println("motivo: " + motivo);
         
-        boolean success = true; // TEMPORAL
+        boolean success = ControladorSistema.getInstance().eliminarEquipo(idEquipo);
         JSONObject jsonResponse = new JSONObject();
         
         if (success) {
             jsonResponse.put("success", true);
             jsonResponse.put("rutUsuario", rutUsuario);
             jsonResponse.put("nombreUsuario", nombreUsuario);
+            jsonResponse.put("idEquipo", idEquipo);
             jsonResponse.put("horaEstimada", horaEstimada);
             jsonResponse.put("motivo", motivo);
         } else {
