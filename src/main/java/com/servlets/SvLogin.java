@@ -4,7 +4,6 @@
  */
 package com.servlets;
 
-import com.controlador.ControladorSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,8 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author yonatan
  */
-@WebServlet(name = "SvRegistrarEncargado", urlPatterns = {"/SvRegistrarEncargado"})
-public class SvRegistrarEncargado extends HttpServlet {
+@WebServlet(name = "SvLogin", urlPatterns = {"/SvLogin"})
+public class SvLogin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,6 +30,7 @@ public class SvRegistrarEncargado extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -44,7 +44,8 @@ public class SvRegistrarEncargado extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {processRequest(request, response);
+            throws ServletException, IOException {
+        
     }
 
     /**
@@ -58,22 +59,16 @@ public class SvRegistrarEncargado extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         String  rut = request.getParameter("rut"),
-                nombres = request.getParameter("nombres"),
-                apellidos = request.getParameter("apellidos"),
-                correo = request.getParameter("correo"),
-                telefono = request.getParameter("telefono"),
-                contrasenia = request.getParameter("contrasenia");
+                contrasenia = request.getParameter("contraseña");
         
-        
-        System.out.println("Recargando datos ENCARGADO");
-        System.out.println("rut" + rut);
-        System.out.println("nombre completo: " + nombres + apellidos);
-        System.out.println("correo: " + correo);
-        System.out.println("telefono: " + telefono);
-        System.out.println("contrasenia: " + contrasenia);
-       
+        System.out.println("Datos login");
+        System.out.println("Rut: " + rut);
+        System.out.println("Contraseña: " + rut);
+    }
+    
+    private String[] getSavedCredentialsOf(String rut){
+        return null;
     }
 
     /**
