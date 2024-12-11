@@ -1,9 +1,10 @@
 package com.modelo;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.Objects;
 
-public class Rut {
+public class Rut implements Serializable{
 
     private final long numero;
     private final char digitoVerificador;

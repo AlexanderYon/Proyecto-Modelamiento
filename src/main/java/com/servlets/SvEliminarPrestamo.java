@@ -12,16 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.annotation.MultipartConfig;
-import org.json.JSONObject;
 
 /**
  *
  * @author yonatan
  */
-@MultipartConfig
-@WebServlet(name = "SvRegistrarEquipo", urlPatterns = {"/SvRegistrarEquipo"})
-public class SvRegistrarEquipo extends HttpServlet {
+@WebServlet(name = "SvEliminarPrestamo", urlPatterns = {"/SvEliminarPrestamo"})
+public class SvEliminarPrestamo extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,10 +31,22 @@ public class SvRegistrarEquipo extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet SvEliminarPrestamo</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet SvEliminarPrestamo at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
-    // <editor-fold defaultstate="collapsed" descripcion="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -49,7 +58,7 @@ public class SvRegistrarEquipo extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        processRequest(request, response);
     }
 
     /**
@@ -63,27 +72,11 @@ public class SvRegistrarEquipo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Redirigir a la misma página para evitar redireccionamiento innecesarios
+        response.sendRedirect(request.getContextPath() + "/administracionPrestamos.jsp");
         
-        String  id = request.getParameter("id"),
-                nombre = request.getParameter("nombre"),
-                descripcion = request.getParameter("descripcion");
-        
-        boolean success = ControladorSistema.getInstance().registrarEquipo(id, nombre, descripcion); // obtener si el resultado fue exitoso o no
-        JSONObject jsonResponse = new JSONObject();
-        
-        if (success) {
-            jsonResponse.put("success", true);
-            jsonResponse.put("id", id);
-            jsonResponse.put("nombre", nombre);
-            jsonResponse.put("descripcion", descripcion);
-        } else {
-            jsonResponse.put("success", false);
-            jsonResponse.put("message", "No se pudo registrar el equipo.");
-        }
-        
-        // Configurar la respuesta HTTP
-        response.setContentType("application/json");
-        response.getWriter().write(jsonResponse.toString());
+        String idEquipoPrestado = request.getParameter("id"); // ID del equipo
+        boolean eliminado = ControladorSistema.getInstance().eliminarPrestamo(idEquipoPrestado); // Lógica para eliminar el equipo
     }
 
     /**
@@ -95,4 +88,5 @@ public class SvRegistrarEquipo extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

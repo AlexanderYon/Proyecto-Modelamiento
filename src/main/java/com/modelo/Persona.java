@@ -1,16 +1,17 @@
 package com.modelo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 
-public class Persona {
+public class Persona implements Serializable {
     private final String nombre;
     private final Rut rut;
-    private final LocalDate fechaNacimiento;
+    private final String fechaNacimiento;
     private String nroTelefono; // no es final porque puede cambiar
     private final HashSet<Rol> roles;
 
-    public Persona(String nombre, Rut rut, LocalDate fechaNacimiento, String nroTelefono) { // crear una persona sin roles inicialmente
+    public Persona(String nombre, Rut rut, String fechaNacimiento, String nroTelefono) { // crear una persona sin roles inicialmente
         this.nombre = nombre;
         this.rut = rut;
         this.fechaNacimiento = fechaNacimiento;

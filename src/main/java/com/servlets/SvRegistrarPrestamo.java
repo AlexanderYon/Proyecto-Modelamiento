@@ -3,16 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package com.servlets;
-
 import com.controlador.ControladorSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.annotation.MultipartConfig;
 import org.json.JSONObject;
 
 /**
@@ -20,8 +19,8 @@ import org.json.JSONObject;
  * @author yonatan
  */
 @MultipartConfig
-@WebServlet(name = "SvRegistrarEquipo", urlPatterns = {"/SvRegistrarEquipo"})
-public class SvRegistrarEquipo extends HttpServlet {
+@WebServlet(name = "SvRegistrarPrestamo", urlPatterns = {"/SvRegistrarPrestamo"})
+public class SvRegistrarPrestamo extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,10 +33,9 @@ public class SvRegistrarEquipo extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
     }
 
-    // <editor-fold defaultstate="collapsed" descripcion="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -63,19 +61,29 @@ public class SvRegistrarEquipo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String  rutUsuario = request.getParameter("rutUsuario"),
+                nombreUsuario = request.getParameter("nombreUsuario"),
+                horaEstimada = request.getParameter("horaEstimada"),
+                motivo = request.getParameter("motivo"),
+                idEquipo = request.getParameter("idEquipo");
         
-        String  id = request.getParameter("id"),
-                nombre = request.getParameter("nombre"),
-                descripcion = request.getParameter("descripcion");
+        //System.out.println("DATOS DE PRESTAMO NUEVO");
+        //System.out.println("rut: " + rutUsuario);
+        //System.out.println("nombre: " + nombreUsuario);
+        //System.out.println("id equipo: " + idEquipo);
+        //System.out.println("hora: " + horaEstimada);
+        //System.out.println("motivo: " + motivo);
         
-        boolean success = ControladorSistema.getInstance().registrarEquipo(id, nombre, descripcion); // obtener si el resultado fue exitoso o no
+        boolean success = ControladorSistema.getInstance().eliminarEquipo(idEquipo);
         JSONObject jsonResponse = new JSONObject();
         
         if (success) {
             jsonResponse.put("success", true);
-            jsonResponse.put("id", id);
-            jsonResponse.put("nombre", nombre);
-            jsonResponse.put("descripcion", descripcion);
+            jsonResponse.put("rutUsuario", rutUsuario);
+            jsonResponse.put("nombreUsuario", nombreUsuario);
+            jsonResponse.put("idEquipo", idEquipo);
+            jsonResponse.put("horaEstimada", horaEstimada);
+            jsonResponse.put("motivo", motivo);
         } else {
             jsonResponse.put("success", false);
             jsonResponse.put("message", "No se pudo registrar el equipo.");
@@ -95,4 +103,5 @@ public class SvRegistrarEquipo extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

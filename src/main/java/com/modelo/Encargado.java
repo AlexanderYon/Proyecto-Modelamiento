@@ -1,13 +1,18 @@
 package com.modelo;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class Encargado extends Persona{
     private LocalTime horaEntrada, horaSalida;
     private String descripcionCargo;
+    private String contrasenia;
+    private ArrayList<Prestamo> prestamos;
 
-    public Encargado(String nombre, Rut rut, LocalDate fechaNacimiento, String nroTelefono) {
+    public Encargado(String nombre, Rut rut, String fechaNacimiento, String nroTelefono) {
         super(nombre, rut, fechaNacimiento, nroTelefono);
+        this.prestamos = new ArrayList<>();
+        this.contrasenia = contrasenia;
     }
 
     public LocalTime getHoraEntrada() {
@@ -32,5 +37,17 @@ public class Encargado extends Persona{
 
     public void setDescripcionCargo(String descripcionCargo) {
         this.descripcionCargo = descripcionCargo;
+    }
+    
+    public void agregarPrestamo(Prestamo prestamo){
+        this.prestamos.add(prestamo);
+    }
+    
+    public void setContrasenia(String contrasenia){
+        this.contrasenia = contrasenia;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
     }
 }
