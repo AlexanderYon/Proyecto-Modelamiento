@@ -18,9 +18,16 @@
     <body>
         <div class="wrapper">
             <div class="title"><span>Inicio de Sesión</span></div>
-            
+
             <!-- Formulario para iniciar sesión -->
             <form action="SvLogin" method="post">
+                
+                <%-- Mostrar mensaje de error si existe --%>
+                <% if (request.getAttribute("mensajeError") != null) {%>
+                <div class="error-message" style="color: red; font-weight: bold; margin-bottom: 10px;">
+                    <%= request.getAttribute("mensajeError")%>
+                </div>
+                <% }%>
                 
                 <!-- Rut -->
                 <div class="row">

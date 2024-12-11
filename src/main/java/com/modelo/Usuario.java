@@ -6,8 +6,8 @@ public class Usuario extends Persona{
     private Prestamo prestamoActual;
     private EstadoUsuario estadoUsuario;
 
-    public Usuario(String nombre, Rut rut, LocalDate fechaNacimiento, String nroTelefono) {
-        super(nombre, rut, fechaNacimiento, nroTelefono);
+    public Usuario(String nombre, Rut rut) {
+        super(nombre, rut);
         prestamoActual = null;
     }
 

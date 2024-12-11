@@ -20,6 +20,13 @@
     <div class="title"><span>Registro de Usuario</span></div>
     <form action="SvRegistrarEncargado" method="post">
         
+        <%-- Mostrar mensaje de error si existe --%>
+        <% if (request.getAttribute("mensajeError") != null) {%>
+        <div class="error-message" style="color: red; font-weight: bold; margin-bottom: 10px;">
+            <%= request.getAttribute("mensajeError")%>
+        </div>
+        <% }%>
+        
         <!-- Rut -->
       <div class="row">
         <i class="fas fa-id-card"></i>

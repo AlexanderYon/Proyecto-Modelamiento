@@ -4,6 +4,7 @@
  */
 package com.servlets;
 
+import com.controlador.ControladorSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -45,7 +46,6 @@ public class SvLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
     }
 
     /**
@@ -65,10 +65,18 @@ public class SvLogin extends HttpServlet {
         System.out.println("Datos login");
         System.out.println("Rut: " + rut);
         System.out.println("Contraseña: " + rut);
-    }
-    
-    private String[] getSavedCredentialsOf(String rut){
-        return null;
+        
+        boolean autenticado = ControladorSistema.getInstance().autenticarEncargado(rut, contrasenia);
+        
+        System.out.println("Autenticando: " + autenticado);
+        
+        if (autenticado){
+            response.sendRedirect("home.jsp");
+        }else{
+            // Volver al login con un mensaje de error
+            request.setAttribute("mensajeError", "Usuario o contraseña incorrectos.");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        }
     }
 
     /**

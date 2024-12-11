@@ -3,27 +3,22 @@ package com.modelo;
 public class Equipo {
     // El id de equipo puede ser lo que la organización decida;
     // puede ser un número de identificación, un nombre, un número de serie, código de producto, etc.
-    private final String idEquipo, marca, modelo;
+    private final String idEquipo, nombre;
     private String descripcion;
-
-
     private EstadoEquipo estado;
     private Prestamo prestamo;
+    private boolean estaPrestado;
 
-    public Equipo(String idEquipo, String marca, String modelo, String descripcion) {
+    public Equipo(String idEquipo, String nombre,  String descripcion) {
         this.idEquipo = idEquipo;
-        this.marca = marca;
-        this.modelo = modelo;
+        this.nombre = nombre;
         this.descripcion = descripcion;
         this.estado = EstadoEquipo.UTILIZABLE; // todos los equipos se crean utilizables por defecto
+        this.estaPrestado = false;
     }
 
-    public String getMarca() {
-        return marca;
-    }
-
-    public String getModelo() {
-        return modelo;
+    public String getNombre() {
+        return nombre;
     }
 
     public String getIdEquipo() {
@@ -51,5 +46,13 @@ public class Equipo {
 
     public void cambiarEstado() {
         this.estado = (estado == EstadoEquipo.UTILIZABLE) ? EstadoEquipo.INUTILIZABLE : EstadoEquipo.UTILIZABLE;
+    }
+    
+    public void cambiarEstadoPrestamo(){
+        if(estaPrestado){
+            estaPrestado=false;
+            return;
+        }
+        estaPrestado=true;
     }
 }
