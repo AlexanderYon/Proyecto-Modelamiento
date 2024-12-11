@@ -17,9 +17,25 @@ import java.util.HashMap;
  * @author benja
  */
 public class ControladorSistema implements Serializable {
+    
+    // LISTA DE EQUIPOS
     private ArrayList<Equipo> listaEquipos;
+    public ArrayList<Equipo> getInventario(){
+        return listaEquipos;
+    }
+    
+    // LISTA DE PRÉSTAMOS
     private ArrayList<Prestamo> listaPrestamos;
+    public ArrayList<Prestamo> getPrestamos(){
+        return listaPrestamos;
+    }
+    
+    // LISTA DE PERSONAS
     private ArrayList<Persona> listaPersonas;
+    public ArrayList<Persona> getPersonas(){
+        return listaPersonas;
+    }
+    
     private static ControladorSistema INSTANCE = null;
     private Persona encargado; // El encargado actual del laboratorio
     
@@ -28,6 +44,7 @@ public class ControladorSistema implements Serializable {
         listaPrestamos = new ArrayList<>();
         listaPersonas = new ArrayList<>();
     }
+    
     public static ControladorSistema getInstance(){
         if (INSTANCE==null){
             INSTANCE=new ControladorSistema();
@@ -37,29 +54,22 @@ public class ControladorSistema implements Serializable {
     }
     
     public boolean registrarEquipo(String id, String nombre, String descripcion){
-        
-        // REEMPLAZAR LUEGO
-        for(Equipo equipo:listaEquipos){ // si ya está retorna falso
-            if(equipo.getIdEquipo().equalsIgnoreCase(id)){
-                return false;
-            }
+        if (existeEquipo(id)){
+            return false;
         }
         return listaEquipos.add(new Equipo(id, nombre, descripcion));
     }
     
     public boolean eliminarEquipo(String idEquipo){
-        for(Equipo equipo:listaEquipos){
-            if(equipo.getIdEquipo().equalsIgnoreCase(idEquipo)){
-                return listaEquipos.remove(equipo); // lo encontró y lo borró correctamente
-            }
+        if (! existeEquipo(idEquipo)){
+            return false;
         }
-        return false; // falso si no existia equipo en sistema
+        listaEquipos.removeIf(e -> e.getIdEquipo().equals(idEquipo));
+        return true;
     }
     public boolean registrarUsuario(String nombre, String rut) throws IllegalAccessException{
-        for(Persona persona:listaPersonas){
-            if(persona.getRut().equals(Rut.valueOf(rut))){
-                return false; // persona ya está en el sistema
-            }
+        if(existePersona(Rut.valueOf(rut))){
+            return false;
         }
         return listaPersonas.add(new Persona(nombre,Rut.valueOf(rut)));
     }
@@ -67,7 +77,7 @@ public class ControladorSistema implements Serializable {
     public boolean registrarEncargado(String rut, String nombre, String correo, String telefono, String contrasenia) throws IllegalAccessException{
         Rut parsedRut = Rut.valueOf(rut);
         
-        if (buscarEncargado(parsedRut) != null){ // el encargado ya esta registrado
+        if (existeEncargado(parsedRut)){ // el encargado ya esta registrado
             return false;
         }
         
@@ -76,47 +86,35 @@ public class ControladorSistema implements Serializable {
         return true;
     }
     
-    public boolean registrarPrestamo(String nombre, String rut, String idEquipo,LocalTime horaDevolucion, Encargado encargado) throws IllegalAccessException{
-        Usuario personaEncontrada=null;
-        Equipo equipoEncontrado=null;
-        for(Persona persona:listaPersonas){
-            if(persona.getRut().equals(Rut.valueOf(rut))){
-                personaEncontrada=(Usuario)persona;
-            }
+    public boolean registrarPrestamo(String nombre, String rut, String idEquipo, LocalTime horaDevolucion, Encargado encargado) throws IllegalAccessException{
+        Usuario usuario = buscarUsuario(Rut.valueOf(rut));
+        if (usuario == null){
+            return false; // no se encontró al usuario
         }
-        for(Equipo equipo:listaEquipos){
-            if(equipo.getIdEquipo().equalsIgnoreCase(idEquipo)){
-                equipoEncontrado=equipo;
-            }
-        }
-        if(personaEncontrada==null){ // no se encontró persona 
-            registrarUsuario(nombre,rut);
-        }
-        if(equipoEncontrado==null){ // no se encontró equipo
+        
+        Equipo equipo = buscarEquipo(idEquipo);
+        if (equipo == null){
             return false;
         }
-        for(Prestamo prestamo:listaPrestamos){
-            if(prestamo.getEquipo().getIdEquipo().equalsIgnoreCase(idEquipo)){
-                return false; // equipo ya está en prestamo
-            }
+        
+        if (existePrestamo(idEquipo)){
+            return false;
         }
-        Prestamo nuevoPrestamo = new Prestamo(LocalDate.now(),LocalTime.now(),horaDevolucion,equipoEncontrado,personaEncontrada,encargado);
-        listaPrestamos.add(nuevoPrestamo);
-        personaEncontrada.agregarPrestamo(nuevoPrestamo);
-        equipoEncontrado.setPrestamo(nuevoPrestamo);
-        equipoEncontrado.cambiarEstadoPrestamo();
+        listaPrestamos.add( 
+                new Prestamo(
+                        LocalDate.now(), LocalTime.now(), horaDevolucion, equipo, usuario, encargado
+                )
+        );
         return true;
     }
     
     public boolean eliminarPrestamo(String idEquipo) {
-        for(Prestamo prestamo:listaPrestamos){
-            if(prestamo.getEquipo().getIdEquipo().equalsIgnoreCase(idEquipo)){
-                prestamo.getUsuario().eliminarPrestamo();
-                prestamo.getEquipo().cambiarEstadoPrestamo();
-                return listaPrestamos.remove(prestamo);
-            }
+        Prestamo prestamo = buscarPrestamo(idEquipo);
+        
+        if (prestamo == null){ // No se encontró el préstamo
+            return false;
         }
-        return false; // no habia prestamo con los datos
+        return listaPrestamos.remove(prestamo);
     }
     
     // Obtener credenciales de un encargado a partir de su Rut
@@ -138,11 +136,11 @@ public class ControladorSistema implements Serializable {
             Rut parsedRut = Rut.valueOf(rut);
             Encargado encargado = buscarEncargado(parsedRut);
             
-            if (encargado == null){
+            if (encargado == null){ // el encargado no está registrado en el sistema 
                 return false;
             }
             
-            if (encargado.getContrasenia().equals(contrasenia)){
+            if (encargado.getContrasenia().equals(contrasenia)){ // las contraseñas no coinciden
                 return true;
             }
             
@@ -158,6 +156,7 @@ public class ControladorSistema implements Serializable {
         datos.writeObject(this);
         datos.close();
     }
+    
     public void recuperarDatosSistema() throws IOException, ClassNotFoundException{
         FileInputStream fis = new FileInputStream("Datos.obj");
         ObjectInputStream datos = new ObjectInputStream(fis);
@@ -166,6 +165,29 @@ public class ControladorSistema implements Serializable {
     }
     
     
+    // =======================     SECCIÓN BÚSQUEDAS     ==================== // 
+
+    
+    private boolean existePersona(Rut rut){
+        return buscarPersona(rut) != null;
+    }
+    
+    private boolean existeEncargado(Rut rut){
+        return buscarEncargado(rut) != null;
+    }
+    
+    private boolean existeUsuario(Rut rut){
+        return buscarUsuario(rut) != null;
+    }
+    
+    private boolean existeEquipo(String idEquipo){
+        return buscarEquipo(idEquipo) != null;
+    }
+    
+    private boolean existePrestamo(String idEquipo){
+        return buscarPrestamo(idEquipo) != null;
+    }
+
     private Persona buscarPersona(Rut rut){
         for (Persona pers : this.listaPersonas){
             if (pers.getRut().equals(rut)){
@@ -176,12 +198,36 @@ public class ControladorSistema implements Serializable {
     }
     
     private Encargado buscarEncargado(Rut rut){
-        for (Persona pers : this.listaPersonas){
-            if (pers.getRut().equals(rut) && (pers instanceof Encargado)){
-                return (Encargado) pers;
+        Persona pers = buscarPersona(rut);
+        if (pers == null || !(pers instanceof Encargado)){
+            return null;
+        }
+        return (Encargado) pers;
+    }
+    
+    private Usuario buscarUsuario(Rut rut){
+        Persona pers = buscarPersona(rut);
+        if (pers == null || !(pers instanceof Usuario)){
+            return null;
+        }
+        return (Usuario) pers;
+    }
+    
+    private Equipo buscarEquipo(String id){
+        for (Equipo e : listaEquipos){
+            if (e.getIdEquipo().equals(id)){
+                return e;
             }
         }
-        return null; 
+        return null;
     }
-
+    
+    private Prestamo buscarPrestamo(String idEquipo){ // buscar un préstamo por el id del equipo prestado
+        for (Prestamo p : listaPrestamos){
+            if (p.getEquipo().getIdEquipo().equals(idEquipo)){
+                return p;
+            }
+        }
+        return null;
+    }
 }

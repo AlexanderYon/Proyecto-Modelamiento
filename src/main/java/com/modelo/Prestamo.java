@@ -15,6 +15,8 @@ public class Prestamo {
         this.horaPrestamo = horaPrestamo;
         this.horaDevolucion = horaDevolucion;
         this.equipo = equipo;
+        this.equipo.setPrestamo(this);
+        this.equipo.cambiarEstadoPrestamo();
         this.usuario = usuario;
         this.usuario.agregarPrestamo(this);
         this.encragado = encargado;
