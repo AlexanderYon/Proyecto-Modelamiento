@@ -64,7 +64,7 @@ public class ControladorSistema implements Serializable {
         return listaPersonas.add(new Persona(nombre,Rut.valueOf(rut),fechaNacimiento,nroTelefono));
     }
     
-    public boolean registrarPrestamo(String nombre, String rut, String idEquipo,LocalTime horaDevolucion) throws IllegalAccessException{
+    public boolean registrarPrestamo(String nombre, String rut, String idEquipo,LocalTime horaDevolucion, Encargado encargado) throws IllegalAccessException{
         Usuario personaEncontrada=null;
         Equipo equipoEncontrado=null;
         for(Persona persona:listaPersonas){
@@ -88,7 +88,7 @@ public class ControladorSistema implements Serializable {
                 return false; // equipo ya está en prestamo
             }
         }
-        Prestamo nuevoPrestamo = new Prestamo(LocalDate.now(),LocalTime.now(),horaDevolucion,equipoEncontrado,personaEncontrada);
+        Prestamo nuevoPrestamo = new Prestamo(LocalDate.now(),LocalTime.now(),horaDevolucion,equipoEncontrado,personaEncontrada,encargado);
         listaPrestamos.add(nuevoPrestamo);
         personaEncontrada.agregarPrestamo(nuevoPrestamo);
         equipoEncontrado.setPrestamo(nuevoPrestamo);
