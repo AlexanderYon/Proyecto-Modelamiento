@@ -169,10 +169,10 @@
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <div class="card text-white bg-success mb-3">
-                            <div class="card-header">Prestamos</div>
+                            <div class="card-header">Préstamos</div>
                             <div class="card-body">
                             <h5 class="card-title"><%= session.getAttribute("prestamosActivos") != null ? session.getAttribute("prestamosActivos") : "N/A" %></h5>
-                                <p class="card-text">Prestamos Activos</p>
+                                <p class="card-text">Préstamos Activos</p>
                             </div>
                         </div>
                     </div>
@@ -181,7 +181,7 @@
                             <div class="card-header">Equipos Disponibles</div>
                             <div class="card-body">
                             <h5 class="card-title"><%= session.getAttribute("equiposDisponibles") != null ? session.getAttribute("equiposDisponibles") : "N/A" %></h5>
-                                <p class="card-text">Equipos Disponibles para Prestamos</p>
+                                <p class="card-text">Equipos Disponibles para Préstamos</p>
                             </div>
                         </div>
                     </div>

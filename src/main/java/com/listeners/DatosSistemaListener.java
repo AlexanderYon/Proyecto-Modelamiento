@@ -22,22 +22,23 @@ public class DatosSistemaListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         try {
-            // Llamar al método de recuperación al iniciar la aplicación
-            ControladorSistema.getInstance().recuperarDatosSistema();
-            System.out.println("Datos del sistema cargados correctamente.");
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error al cargar los datos del sistema: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        try {
             // Guardar los datos al detener la aplicación
             ControladorSistema.getInstance().guardarDatosSistema();
             System.out.println("Datos del sistema guardados correctamente.");
         } catch (IOException e) {
             System.err.println("Error al guardar los datos del sistema: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        
+        try {
+            // Llamar al método de recuperación al iniciar la aplicación
+            ControladorSistema.getInstance().recuperarDatosSistema();
+            System.out.println("Datos del sistema cargados correctamente.");
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error al cargar los datos del sistema: " + e.getMessage());
         }
     }
 }
