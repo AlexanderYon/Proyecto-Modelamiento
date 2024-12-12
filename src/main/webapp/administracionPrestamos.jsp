@@ -4,6 +4,8 @@
     Author     : benja
 --%>
 
+<%@page import="com.modelo.Prestamo"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="es">
@@ -172,6 +174,34 @@
             </thead>
             <tbody>
                 <!-- Aquí irá la lista de todos los prestamos -->
+                <%
+                    // Obtener la lista de préstamos desde el request
+                    ArrayList<Prestamo> prestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");
+                    if (prestamos != null) {
+                        for (Prestamo prestamo : prestamos) {
+                %>
+                <tr>
+                    <td><%= prestamo.getEquipo().getIdEquipo() %></td>
+                    <td><%= prestamo.getUsuario().getRut() %></td>
+                    <td><%= prestamo.getUsuario().getNombre() %></td>
+                    <td><%= prestamo.getHoraDevolucion() %></td>
+                    <td><%= prestamo.getMotivo() %></td>
+                    <td>
+                        <!-- Botón Eliminar -->
+                        <a href="SvEliminarPrestamo?rut=<%= prestamo.getUsuario().getRut() %>&idEquipo=<%= prestamo.getEquipo().getIdEquipo() %>"
+                           class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                </tr>
+                <%
+                        }
+                    } else {
+                %>
+                <tr>
+                    <td colspan="6" class="text-center">No hay préstamos registrados.</td>
+                </tr>
+                <%
+                    }
+                %>
             </tbody>
         </table>
 

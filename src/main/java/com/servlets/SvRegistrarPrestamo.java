@@ -4,6 +4,8 @@
  */
 package com.servlets;
 import com.controlador.ControladorSistema;
+import com.modelo.Prestamo;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import org.json.JSONObject;
 
 /**
@@ -21,19 +24,32 @@ import org.json.JSONObject;
 @MultipartConfig
 @WebServlet(name = "SvRegistrarPrestamo", urlPatterns = {"/SvRegistrarPrestamo"})
 public class SvRegistrarPrestamo extends HttpServlet {
+    private ArrayList<Prestamo> listaPrestamos;
+    
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    
+        // Recuperar parámetros del formulario
+        String nombre = request.getParameter("nombreUsuario");
+        String rut = request.getParameter("rutUsuario");
+        String idEquipo = request.getParameter("idEquipo");
+        String horaDevolucion = request.getParameter("horaEstmiada");
+        String motivo = request.getParameter("motivo");
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        try {
+            // Registrar el préstamo en el sistema
+            boolean registrado = ControladorSistema.getInstance()
+                .registrarPrestamo(nombre, rut, idEquipo, horaDevolucion, motivo, null);
+
+            if (registrado) {
+                // Guardar datos después de registrar
+                ControladorSistema.getInstance().guardarDatosSistema();
+            }
+            response.sendRedirect("SvMostrarPrestamos");
+        } catch (Exception e) {
+            throw new ServletException("Error al registrar el préstamo", e);
     }
+}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -58,7 +74,7 @@ public class SvRegistrarPrestamo extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+    /*@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String  rutUsuario = request.getParameter("rutUsuario"),
@@ -99,9 +115,9 @@ public class SvRegistrarPrestamo extends HttpServlet {
      *
      * @return a String containing servlet description
      */
-    @Override
+    /*@Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }// </editor-fold>*/
 
 }

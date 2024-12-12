@@ -5,32 +5,34 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Prestamo implements Serializable{
-    private final LocalDate fecha;
-    private final LocalTime horaPrestamo, horaDevolucion;
+    private final String fecha;
+    private final String horaPrestamo, horaDevolucion;
     private final Equipo equipo;
     private final Usuario usuario;
-    private final Encargado encragado;
+    private final String motivo;
+    private final Encargado encargado;
 
-    public Prestamo(LocalDate fecha, LocalTime horaPrestamo, LocalTime horaDevolucion, Equipo equipo, Usuario usuario, Encargado encargado) {
+    public Prestamo(String fecha, String horaPrestamo, String horaDevolucion, Equipo equipo, Usuario usuario, String motivo, Encargado encargado) {
         this.fecha = fecha;
         this.horaPrestamo = horaPrestamo;
         this.horaDevolucion = horaDevolucion;
         this.equipo = equipo;
         this.usuario = usuario;
         this.usuario.agregarPrestamo(this);
-        this.encragado = encargado;
-        this.encragado.agregarPrestamo(this);
+        this.encargado = encargado;
+        this.encargado.agregarPrestamo(this);
+        this.motivo=motivo;
     }
 
-    public LocalDate getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public LocalTime getHoraPrestamo() {
+    public String getHoraPrestamo() {
         return horaPrestamo;
     }
 
-    public LocalTime getHoraDevolucion() {
+    public String getHoraDevolucion() {
         return horaDevolucion;
     }
 
@@ -41,4 +43,9 @@ public class Prestamo implements Serializable{
     public Usuario getUsuario() {
         return usuario;
     }
+
+    public String getMotivo() {
+        return motivo;
+    }
+    
 }

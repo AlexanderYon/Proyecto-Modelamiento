@@ -12,6 +12,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -76,7 +78,13 @@ public class SvEliminarPrestamo extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/administracionPrestamos.jsp");
         
         String idEquipoPrestado = request.getParameter("id"); // ID del equipo
-        boolean eliminado = ControladorSistema.getInstance().eliminarPrestamo(idEquipoPrestado); // Lógica para eliminar el equipo
+        String nombre = request.getParameter("nombre");
+        String rut = request.getParameter("rut");
+        try {
+            boolean eliminado = ControladorSistema.getInstance().eliminarPrestamo(nombre,rut,idEquipoPrestado); // Lógica para eliminar el equipo
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(SvEliminarPrestamo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

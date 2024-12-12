@@ -61,17 +61,20 @@ public class ControladorSistema implements Serializable {
                 return false; // persona ya está en el sistema
             }
         }
-        return listaPersonas.add(new Persona(nombre,Rut.valueOf(rut),fechaNacimiento,nroTelefono));
+        return listaPersonas.add(new Usuario(nombre,Rut.valueOf(rut),fechaNacimiento,nroTelefono));
     }
     
-    public boolean registrarPrestamo(String nombre, String rut, String idEquipo,LocalTime horaDevolucion, Encargado encargado) throws IllegalAccessException{
+    public boolean registrarPrestamo(String nombre, String rut, String idEquipo,String horaDevolucion, String motivo, Encargado encargado) throws IllegalAccessException{
         Usuario personaEncontrada=null;
         Equipo equipoEncontrado=null;
         for(Persona persona:listaPersonas){
-            if(persona.getRut().equals(Rut.valueOf(rut))){
-                personaEncontrada=(Usuario)persona;
+        if (persona instanceof Usuario) { // Verifica que persona sea una instancia de Usuario 
+            if (persona.getRut().equals(Rut.valueOf(rut))) {
+                personaEncontrada = (Usuario) persona; // Asigna el objeto Usuario a personaEncontrada
+                break;
             }
         }
+    }
         for(Equipo equipo:listaEquipos){
             if(equipo.getIdEquipo().equalsIgnoreCase(idEquipo)){
                 equipoEncontrado=equipo;
@@ -88,7 +91,7 @@ public class ControladorSistema implements Serializable {
                 return false; // equipo ya está en prestamo
             }
         }
-        Prestamo nuevoPrestamo = new Prestamo(LocalDate.now(),LocalTime.now(),horaDevolucion,equipoEncontrado,personaEncontrada,encargado);
+        Prestamo nuevoPrestamo = new Prestamo(LocalDate.now().toString(),LocalTime.now().toString(),horaDevolucion,equipoEncontrado,personaEncontrada, motivo, encargado);
         listaPrestamos.add(nuevoPrestamo);
         personaEncontrada.agregarPrestamo(nuevoPrestamo);
         equipoEncontrado.setPrestamo(nuevoPrestamo);
@@ -121,4 +124,20 @@ public class ControladorSistema implements Serializable {
     }
     // test para push
 
+    public ArrayList<Equipo> getListaEquipos() {
+        return listaEquipos;
+    }
+
+    public ArrayList<Prestamo> getListaPrestamos() {
+        return listaPrestamos;
+    }
+
+    public ArrayList<Persona> getListaPersonas() {
+        return listaPersonas;
+    }
+
+    public ArrayList<Prestamo> getPrestamos() {
+        return listaPrestamos;
+    }
+    
 }
