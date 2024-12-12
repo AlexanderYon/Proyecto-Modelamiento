@@ -54,19 +54,26 @@ public class ControladorSistema implements Serializable {
     }
     
     public boolean registrarEquipo(String id, String nombre, String descripcion){
+        System.out.println("\nREGISTRANDO EL EQUIPO: " + id);
         if (existeEquipo(id)){
+            System.out.println("Ya existe el equipo: " + id);
             return false;
         }
+        System.out.println("Se ha registrado el equipo: " + id);
         return listaEquipos.add(new Equipo(id, nombre, descripcion));
     }
     
     public boolean eliminarEquipo(String idEquipo){
+        System.out.println("\nELIMINANDO EL EQUIPO: " + idEquipo);
         if (! existeEquipo(idEquipo)){
+            System.out.println("No existe el equipo: " + idEquipo);
             return false;
         }
         listaEquipos.removeIf(e -> e.getIdEquipo().equals(idEquipo));
+        System.out.println("Se removió el equipo: " + idEquipo);
         return true;
     }
+    
     public boolean registrarUsuario(String nombre, String rut) throws IllegalAccessException{
         if(existePersona(Rut.valueOf(rut))){
             return false;
@@ -87,11 +94,7 @@ public class ControladorSistema implements Serializable {
     }
     
     public boolean registrarPrestamo(String nombre, String rut, String idEquipo, String horaDevolucion, String motivo) throws IllegalAccessException{
-        registrarUsuario("Benjamin", "21151870-7");
-        registrarEquipo("01", "Lenovo", "sdfsaf");
         Usuario usuario = buscarUsuario(Rut.valueOf(rut));
-        registrarEncargado("21268900-9", "encargadoPrueba", "pruebacorreo", "1111111", "123");
-        autenticarEncargado("21268900-9", "123");
         
         if (usuario == null){
             return false; // no se encontró al usuario
@@ -145,8 +148,9 @@ public class ControladorSistema implements Serializable {
                 return false;
             }
             
-            if (encargado.getContrasenia().equals(contrasenia)){ // las contraseñas no coinciden
-               this.encargado=encargado;
+            if (encargado.getContrasenia().equals(contrasenia)){ // las contraseñas coinciden
+                
+                this.encargado = encargado; // asignar a este encargado como el encargado actual del laboratorio
                 return true;
             }
             

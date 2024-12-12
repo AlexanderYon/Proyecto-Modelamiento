@@ -4,7 +4,6 @@
  */
 package com.servlets;
 
-import com.controlador.ControladorSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,13 +11,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author yonatan
  */
-@WebServlet(name = "SvLogin", urlPatterns = {"/SvLogin"})
-public class SvLogin extends HttpServlet {
+@WebServlet(name = "SvLogout", urlPatterns = {"/SvLogout"})
+public class SvLogout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,7 +31,19 @@ public class SvLogin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Logout</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Logout at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -46,6 +58,11 @@ public class SvLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false); // Obtener la sesión actual, sin crear una nueva
+        if (session != null) {
+            session.invalidate(); // Invalidar la sesión
+        }
+        response.sendRedirect("login.jsp"); // Redirigir a la página de inicio de sesión
     }
 
     /**
@@ -59,24 +76,7 @@ public class SvLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String  rut = request.getParameter("rut"),
-                contrasenia = request.getParameter("contraseña");
-        
-        System.out.println("Datos login");
-        System.out.println("Rut: " + rut);
-        System.out.println("Contraseña: " + rut);
-        
-        boolean autenticado = ControladorSistema.getInstance().autenticarEncargado(rut, contrasenia);
-        
-        System.out.println("Autenticando: " + autenticado);
-        
-        if (autenticado){
-            response.sendRedirect("SvHome");
-        }else{
-            // Volver al login con un mensaje de error
-            request.setAttribute("mensajeError", "Usuario o contraseña incorrectos.");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**

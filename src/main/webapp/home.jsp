@@ -8,14 +8,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio de Especialidades</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Laboratorio de Especialidades</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <style>
         * {
             margin: 0;
             padding: 0;
@@ -127,7 +127,7 @@
             font-size: 1.1rem;
         }
     </style>
-</head>
+    </head>
 
 <body>
     <div class="d-flex" id="wrapper">
@@ -138,17 +138,7 @@
         <a href="SvHome" class="list-group-item list-group-item-action bg-dark text-white">Inicio</a>
         <a href="SvMostrarPrestamos" class="list-group-item list-group-item-action bg-dark text-white">Administración de Préstamos</a>
         <a href="SvMemoriaInventario" class="list-group-item list-group-item-action bg-dark text-white">Inventario</a>
-        <div class="list-group-item bg-dark text-white">
-            <a class="text-white text-decoration-none" data-bs-toggle="collapse" href="#reportesSubmenu" role="button" aria-expanded="false" aria-controls="reportesSubmenu">
-                Informes
-            </a>
-            <div class="collapse" id="reportesSubmenu">
-                <a href="#" class="list-group-item list-group-item-action bg-secondary text-white">Reporte 1</a>
-                <a href="#" class="list-group-item list-group-item-action bg-secondary text-white">Reporte 2</a>
-                <a href="#" class="list-group-item list-group-item-action bg-secondary text-white">Reporte 3</a>
-            </div>
-        </div>
-        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Cerrar sesión</a>
+        <a href="SvLogout" class="list-group-item list-group-item-action bg-dark text-white">Cerrar sesión</a>
     </div>
 </div>
         <!-- /#sidebar-wrapper -->
@@ -203,5 +193,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 
 </html>
