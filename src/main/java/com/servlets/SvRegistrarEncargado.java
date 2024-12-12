@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -66,7 +67,6 @@ public class SvRegistrarEncargado extends HttpServlet {
                 telefono = request.getParameter("telefono"),
                 contrasenia = request.getParameter("contrasenia");
         
-        
         System.out.println("Recargando datos ENCARGADO");
         System.out.println("rut" + rut);
         System.out.println("nombre completo: " + nombres + apellidos);
@@ -74,6 +74,20 @@ public class SvRegistrarEncargado extends HttpServlet {
         System.out.println("telefono: " + telefono);
         System.out.println("contrasenia: " + contrasenia);
         
+        try {
+            boolean result = ControladorSistema.getInstance().registrarEncargado(rut, nombres + " " + apellidos, correo, telefono, contrasenia);
+            if (!result) {
+                // Volver al login con un mensaje de error
+                request.setAttribute("mensajeError", "El usuario ya está registrado");
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            }
+            response.sendRedirect("login.jsp");
+        } catch (IllegalAccessException e) {
+            System.out.println(e.getMessage());
+            // Volver al login con un mensaje de error
+            request.setAttribute("mensajeError", "Usuario o contraseña incorrectos.");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -85,5 +99,4 @@ public class SvRegistrarEncargado extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

@@ -12,15 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author yonatan
  */
-@WebServlet(name = "SvEliminarPrestamo", urlPatterns = {"/SvEliminarPrestamo"})
-public class SvEliminarPrestamo extends HttpServlet {
+@WebServlet(name = "SvLogin", urlPatterns = {"/SvLogin"})
+public class SvLogin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,6 +31,7 @@ public class SvEliminarPrestamo extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -47,7 +46,6 @@ public class SvEliminarPrestamo extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**
@@ -61,13 +59,24 @@ public class SvEliminarPrestamo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Redirigir a la misma página para evitar redireccionamiento innecesarios
-        response.sendRedirect(request.getContextPath() + "/administracionPrestamos.jsp");
+        String  rut = request.getParameter("rut"),
+                contrasenia = request.getParameter("contraseña");
         
-        String idEquipoPrestado = request.getParameter("id"); // ID del equipo
-        String nombre = request.getParameter("nombre");
-        String rut = request.getParameter("rut");
-        boolean eliminado = ControladorSistema.getInstance().eliminarPrestamo(idEquipoPrestado); // Lógica para eliminar el equipo
+        System.out.println("Datos login");
+        System.out.println("Rut: " + rut);
+        System.out.println("Contraseña: " + rut);
+        
+        boolean autenticado = ControladorSistema.getInstance().autenticarEncargado(rut, contrasenia);
+        
+        System.out.println("Autenticando: " + autenticado);
+        
+        if (autenticado){
+            response.sendRedirect("home.jsp");
+        }else{
+            // Volver al login con un mensaje de error
+            request.setAttribute("mensajeError", "Usuario o contraseña incorrectos.");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        }
     }
 
     /**

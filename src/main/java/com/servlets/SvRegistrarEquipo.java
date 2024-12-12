@@ -39,22 +39,14 @@ public class SvRegistrarEquipo extends HttpServlet {
                 descripcion = request.getParameter("descripcion");
         
         boolean success = ControladorSistema.getInstance().registrarEquipo(id, nombre, descripcion); // obtener si el resultado fue exitoso o no
-        JSONObject jsonResponse = new JSONObject();
-        
-        if (success) {
-            jsonResponse.put("success", true);
-            jsonResponse.put("id", id);
-            jsonResponse.put("nombre", nombre);
-            jsonResponse.put("descripcion", descripcion);
-        } else {
-            jsonResponse.put("success", false);
-            jsonResponse.put("message", "No se pudo registrar el equipo.");
+        if(success){
+            // Guardar datos después de registrar
+                ControladorSistema.getInstance().guardarDatosSistema();
         }
-        
-        // Configurar la respuesta HTTP
-        response.setContentType("application/json");
-        response.getWriter().write(jsonResponse.toString());
+                response.sendRedirect("SvMemoriaInventario");
     }
+        
+    
 
     /**
      * Returns a short description of the servlet.

@@ -5,24 +5,22 @@ import java.io.Serializable;
 public class Equipo implements Serializable {
     // El id de equipo puede ser lo que la organización decida;
     // puede ser un número de identificación, un nombre, un número de serie, código de producto, etc.
-    private final String idEquipo, marca;
+    private final String idEquipo, nombre;
     private String descripcion;
-
-
     private EstadoEquipo estado;
     private Prestamo prestamo;
     private boolean estaPrestado;
 
-    public Equipo(String idEquipo, String marca, String descripcion) {
+    public Equipo(String idEquipo, String nombre,  String descripcion) {
         this.idEquipo = idEquipo;
-        this.marca = marca;
+        this.nombre = nombre;
         this.descripcion = descripcion;
         this.estado = EstadoEquipo.UTILIZABLE; // todos los equipos se crean utilizables por defecto
-        estaPrestado=false; //los equipos ingresan sin prestamo activo
+        this.estaPrestado = false;
     }
 
-    public String getMarca() {
-        return marca;
+    public String getNombre() {
+        return nombre;
     }
 
     public String getIdEquipo() {
@@ -59,5 +57,4 @@ public class Equipo implements Serializable {
         }
         estaPrestado=true;
     }
-    
 }

@@ -4,6 +4,8 @@
     Author     : benja
 --%>
 
+<%@page import="com.modelo.Equipo"%>
+<%@page import="java.util.ArrayList"%>
 <%-- 
     Document   : gestionEquipos
     Created on : 4 dic 2024, 15:00:00
@@ -176,6 +178,31 @@
             </thead>
             <tbody>
                 <!-- Aquí irá la lista de todos los equipos -->
+                <!-- Aquí irá la lista de todos los prestamos -->
+                <%
+                    // Obtener la lista de préstamos desde el request
+                    ArrayList<Equipo> equipos = (ArrayList<Equipo>) session.getAttribute("listaEquipos");
+                    if (equipos != null) {
+                        for (Equipo equipo : equipos) {
+                %>
+                <tr>
+                    <td><%= equipo.getIdEquipo() %></td>
+                    <td><%= equipo.getNombre() %></td>
+                    <td><%= equipo.getDescripcion() %></td>
+                    <td>
+                        <!-- Botón Eliminar -->
+                        <a href="SvEliminarEquipo?idEquipo=<%= equipo.getIdEquipo() %>" class="btn btn-danger btn-sm">Eliminar</a>
+                </tr>
+                <%
+                        }
+                    } else {
+                %>
+                <tr>
+                    <td colspan="6" class="text-center">No hay préstamos registrados.</td>
+                </tr>
+                <%
+                    }
+                %>
             </tbody>
         </table>
 
@@ -223,115 +250,6 @@
             }
         }
     </script>
-    <script>
-        // función para agregar equipo a la lista gráfica
-        function agregarEquipo(event) {
-            event.preventDefault(); // Prevenir recarga de la página
-
-            const form = document.getElementById("formNuevoEquipo");
-
-            // Crear un objeto FormData para capturar los datos del formulario
-            const formData = new FormData(form);
-
-            // Enviar datos al servlet mediante fetch
-            fetch("SvRegistrarEquipo", {
-                method: "POST",
-                body: formData,
-            })
-            .then(response => response.json()) // Suponemos que el servlet devuelve JSON
-            .then(data => {
-                // console.log(data) // < ------- DEBUG : ESTO FUNCIONA BIEN
-                
-                if (data.success) {
-                    // Crear una nueva fila en la tabla con los datos recibidos
-                    const tableBody = document.querySelector("table tbody");
-                    
-                    // DEBUG: AQUÍ HAY ALGO RARO
-                    // console.log(tableBody)
-                    
-                    const newRow = document.createElement("tr");
-                    
-                    // Asignar los datos de la respuesta a las celdas
-                    const cellId = document.createElement("td");
-                    cellId.textContent = data.id;
-                    newRow.appendChild(cellId);
-
-                    const cellName = document.createElement("td");
-                    cellName.textContent = data.nombre;
-                    newRow.appendChild(cellName);
-
-                    const cellDescription = document.createElement("td");
-                    cellDescription.textContent = data.descripcion;
-                    newRow.appendChild(cellDescription);
-
-                    // Crear la celda para el botón eliminar
-                    //const cellActions = document.createElement("td");
-                    //const deleteButton = document.createElement("button");
-                    //deleteButton.classList.add("btn", "btn-delete");
-                    //deleteButton.textContent = "Eliminar";
-                    //deleteButton.onclick = function() { eliminarEquipo(deleteButton); };
-                    //cellActions.appendChild(deleteButton);
-                    //newRow.appendChild(cellActions);
-                     
-                    
-                    // < --------- Botón Eliminar --------> 
-                    
-                    
-                    // Crear la celda para el botón eliminar
-                    const cellActions = document.createElement("td");
-
-                    // Crear el formulario
-                    const form = document.createElement("form");
-                    form.method = "POST";
-                    form.action = "SvEliminarEquipo";
-
-                    // Crear un campo oculto para enviar el ID del equipo
-                    const hiddenInput = document.createElement("input");
-                    hiddenInput.type = "hidden";
-                    hiddenInput.name = "id";
-                    hiddenInput.value = data.id; // Usamos el ID del equipo recibido
-                    form.appendChild(hiddenInput);
-
-                    // Crear el botón de enviar
-                    const deleteButton = document.createElement("button");
-                    deleteButton.type = "submit"; // Botón de tipo submit
-                    deleteButton.classList.add("btn", "btn-delete");
-                    deleteButton.textContent = "Eliminar";
-                    
-                    // Agregar confirmación al botón
-                    deleteButton.onclick = function () {
-                        //if (!confirm("¿Estás seguro de que deseas eliminar este elemento?")) {
-                        //    event.preventDefault(); // Detener el envío del formulario si el usuario cancela
-                        //}
-                        
-                        // Confirmar la eliminación
-                        if (confirm("¿Seguro que deseas eliminar este equipo?")) {
-                            // Eliminar la fila de la tabla
-                            var row = this.parentNode.parentNode.parentNode;
-                            row.parentNode.removeChild(row);
-                        }
-                    };
-           
-                    // Añadir el formulario a la celda
-                    form.appendChild(deleteButton);
-                    cellActions.appendChild(form);
-                    newRow.appendChild(cellActions);
-
-                    tableBody.appendChild(newRow);
-
-                    // Limpiar el formulario y cerrar el modal
-                    form.reset();
-                    const modal = bootstrap.Modal.getInstance(document.getElementById("nuevoEquipoModal"));
-                    modal.hide();
-                } else {
-                    alert("Error al añadir el equipo: " + data.message);
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("Ocurrió un error al procesar la solicitud.");
-            });
-        }
-    </script>
+    
 </body>
 </html>

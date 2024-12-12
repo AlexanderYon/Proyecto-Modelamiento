@@ -176,7 +176,7 @@
                 <!-- Aquí irá la lista de todos los prestamos -->
                 <%
                     // Obtener la lista de préstamos desde el request
-                    ArrayList<Prestamo> prestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");
+                    ArrayList<Prestamo> prestamos = (ArrayList<Prestamo>) session.getAttribute("listaPrestamos");
                     if (prestamos != null) {
                         for (Prestamo prestamo : prestamos) {
                 %>
@@ -264,108 +264,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function agregarPrestamo(event){
-            event.preventDefault(); // Prevenir recarga de la página
-
-            const form = document.getElementById("formNuevoPrestamo");
-
-            // Crear un objeto FormData para capturar los datos del formulario
-            const formData = new FormData(form);
-            
-            // Enviar datos al servlet mediante fetch
-            fetch("SvRegistrarPrestamo", {
-                method: "POST",
-                body: formData,
-            })
-            .then(response => response.json()) // Suponemos que el servlet devuelve JSON
-            .then(data => {
-                
-                if (data.success) {
-                    // Crear una nueva fila en la tabla con los datos recibidos
-                    const tableBody = document.querySelector("table tbody");
-                    
-                    const newRow = document.createElement("tr");
-                    
-                    const cellId = document.createElement("td");
-                    cellId.textContent = data.idEquipo;
-                    newRow.appendChild(cellId);
-
-                    // Asignar los datos de la respuesta a las celdas
-                    const cellRut = document.createElement("td");
-                    cellRut.textContent = data.rutUsuario;
-                    newRow.appendChild(cellRut);
-
-                    const cellNombre = document.createElement("td");
-                    cellNombre.textContent = data.nombreUsuario;
-                    newRow.appendChild(cellNombre);
-
-                    const cellHoraEstimada = document.createElement("td");
-                    cellHoraEstimada.textContent = data.horaEstimada;
-                    newRow.appendChild(cellHoraEstimada);
-                    
-                    const cellMotivo = document.createElement("td");
-                    cellMotivo.textContent = data.motivo;
-                    newRow.appendChild(cellMotivo);
-
-
-                    // < --------- Botón Eliminar --------> 
-                    
-                    
-                    // Crear la celda para el botón eliminar
-                    const cellActions = document.createElement("td");
-
-                    // Crear el formulario
-                    const form = document.createElement("form");
-                    form.method = "POST";
-                    form.action = "SvEliminarPrestamo";
-
-                    // Crear un campo oculto para enviar el ID del equipo
-                    const hiddenInput = document.createElement("input");
-                    hiddenInput.type = "hidden";
-                    hiddenInput.name = "id";
-                    hiddenInput.value = data.id; // Usamos el ID del equipo recibido
-                    form.appendChild(hiddenInput);
-
-                    // Crear el botón de enviar
-                    const deleteButton = document.createElement("button");
-                    deleteButton.type = "submit"; // Botón de tipo submit
-                    deleteButton.classList.add("btn", "btn-delete");
-                    deleteButton.textContent = "Eliminar";
-                    
-                    // Agregar confirmación al botón
-                    deleteButton.onclick = function () {
-                        
-                        // Confirmar la eliminación
-                        if (confirm("¿Seguro que deseas eliminar este préstamo?")) {
-                            // Eliminar la fila de la tabla
-                            var row = this.parentNode.parentNode.parentNode;
-                            row.parentNode.removeChild(row);
-                        }
-                    };
-           
-                    // Añadir el formulario a la celda
-                    form.appendChild(deleteButton);
-                    cellActions.appendChild(form);
-                    newRow.appendChild(cellActions);
-
-                    tableBody.appendChild(newRow);
-
-                    // Limpiar el formulario y cerrar el modal
-                    form.reset();
-                    const modal = bootstrap.Modal.getInstance(document.getElementById("nuevoPrestamoModal"));
-                    modal.hide();
-                } else {
-                    alert("Error al añadir el préstamo: " + data.message);
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("Ocurrió un error al procesar la solicitud.");
-            });
-        }
-        
-    </script>
+    
 
 </body>
 

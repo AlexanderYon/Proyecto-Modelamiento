@@ -18,15 +18,30 @@
     <body>
         <div class="wrapper">
             <div class="title"><span>Inicio de Sesión</span></div>
-            <form action="LoginServlet">
+
+            <!-- Formulario para iniciar sesión -->
+            <form action="SvLogin" method="post">
+                
+                <%-- Mostrar mensaje de error si existe --%>
+                <% if (request.getAttribute("mensajeError") != null) {%>
+                <div class="error-message" style="color: red; font-weight: bold; margin-bottom: 10px;">
+                    <%= request.getAttribute("mensajeError")%>
+                </div>
+                <% }%>
+                
+                <!-- Rut -->
                 <div class="row">
                     <i class="fas fa-id-card"></i>
                     <input type="text" name="rut" placeholder="RUT (ej. 12.345.678-9)" required />
                 </div>
+                
+                <!-- Contraseña -->
                 <div class="row">
                     <i class="fas fa-lock"></i>
                     <input type="password" name="contraseña" placeholder="Contraseña" required />
                 </div>
+                
+                <!-- Botón de confirmación -->
                 <div class="pass"><a href="#"></a></div>
                 <div class="row button">
                     <input type="submit" value="Login" />

@@ -39,7 +39,7 @@ public class SvRegistrarPrestamo extends HttpServlet {
         try {
             // Registrar el préstamo en el sistema
             boolean registrado = ControladorSistema.getInstance()
-                .registrarPrestamo(nombre, rut, idEquipo, horaDevolucion, motivo, null);
+                .registrarPrestamo(nombre, rut, idEquipo, horaDevolucion, motivo);
 
             if (registrado) {
                 // Guardar datos después de registrar
