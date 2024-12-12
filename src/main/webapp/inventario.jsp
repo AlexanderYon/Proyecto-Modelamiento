@@ -146,9 +146,9 @@
 <div class="bg-dark border-right" id="sidebar-wrapper" style="min-width: 250px;">
     <div class="sidebar-heading text-white">Menú</div>
     <div class="list-group list-group-flush">
-        <a href="home.jsp" class="list-group-item list-group-item-action bg-dark text-white">Inicio</a>
-        <a href="administracionPrestamos.jsp" class="list-group-item list-group-item-action bg-dark text-white">Administración de Préstamos</a>
-        <a href="inventario.jsp" class="list-group-item list-group-item-action bg-dark text-white">Inventario</a>
+        <a href="SvHome" class="list-group-item list-group-item-action bg-dark text-white">Inicio</a>
+        <a href="SvMostrarPrestamos" class="list-group-item list-group-item-action bg-dark text-white">Administración de Préstamos</a>
+        <a href="SvMemoriaInventario" class="list-group-item list-group-item-action bg-dark text-white">Inventario</a>
         <div class="list-group-item bg-dark text-white">
             <a class="text-white text-decoration-none" data-bs-toggle="collapse" href="#reportesSubmenu" role="button" aria-expanded="false" aria-controls="reportesSubmenu">
                 Informes
@@ -191,7 +191,7 @@
                     <td><%= equipo.getDescripcion() %></td>
                     <td>
                         <!-- Botón Eliminar -->
-                        <a href="SvEliminarEquipo?idEquipo=<%= equipo.getIdEquipo() %>" class="btn btn-danger btn-sm">Eliminar</a>
+                        <a href="#" onclick="eliminarEquipo('<%= equipo.getIdEquipo() %>')" class="btn btn-danger btn-sm">Eliminar</a>                
                 </tr>
                 <%
                         }
@@ -221,7 +221,7 @@
                         
                         <!-- Formulario para registrar nuevo equipo -->
                         
-                        <form id="formNuevoEquipo" onsubmit="agregarEquipo(event)" action="SvRegistrarEquipo" method="post">
+                        <form id="formNuevoEquipo" action="SvRegistrarEquipo" method="post">
                             <div class="mb-3">
                                 <label for="idEquipo" class="form-label">ID de Equipo</label>
                                 <input type="text" class="form-control" id="idEquipo" name="id" placeholder="Ingresa el ID" required>
@@ -244,12 +244,31 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function eliminarEquipo(){
+        function eliminarEquipo(idEquipo) {
             if (confirm("¿Estás seguro de que deseas eliminar este equipo?")) {
-                row.parentNode.removeChild(row);
+                fetch('SvEliminarEquipo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'idEquipo=' + encodeURIComponent(idEquipo)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Redirigir para actualizar la lista de inventarios
+                        window.location.href = 'SvMemoriaInventario';
+                    } else {
+                        alert('Error al eliminar el equipo.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al eliminar el equipo.');
+                });
             }
         }
     </script>
+
     
 </body>
 </html>

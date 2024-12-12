@@ -64,9 +64,7 @@ public class SvEliminarPrestamo extends HttpServlet {
         // Redirigir a la misma página para evitar redireccionamiento innecesarios
         response.sendRedirect(request.getContextPath() + "/administracionPrestamos.jsp");
         
-        String idEquipoPrestado = request.getParameter("id"); // ID del equipo
-        String nombre = request.getParameter("nombre");
-        String rut = request.getParameter("rut");
+        String idEquipoPrestado = request.getParameter("idEquipo"); // ID del equipo
         boolean eliminado = ControladorSistema.getInstance().eliminarPrestamo(idEquipoPrestado); // Lógica para eliminar el equipo
     }
 

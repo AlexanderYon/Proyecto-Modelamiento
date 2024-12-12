@@ -25,31 +25,13 @@ import org.json.JSONObject;
 @WebServlet(name = "SvEliminarEquipo", urlPatterns = {"/SvEliminarEquipo"})
 public class SvEliminarEquipo extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String id = request.getParameter("id"); // ID del equipo
+        boolean eliminado = ControladorSistema.getInstance().eliminarEquipo(id); // Lógica para eliminar el equipo
+        response.sendRedirect("SvMemoriaInventario");
     }
 
     /**
@@ -64,11 +46,10 @@ public class SvEliminarEquipo extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // Redirigir a la misma página para evitar redireccionamiento innecesarios
-        response.sendRedirect(request.getContextPath() + "/inventario.jsp");
-        
-        String id = request.getParameter("id"); // ID del equipo
+        String id = request.getParameter("idEquipo"); // ID del equipo
         boolean eliminado = ControladorSistema.getInstance().eliminarEquipo(id); // Lógica para eliminar el equipo
+        response.sendRedirect("SvMemoriaInventario");
+
     }
 
     /**

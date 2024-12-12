@@ -135,9 +135,9 @@
 <div class="bg-dark border-right" id="sidebar-wrapper" style="min-width: 250px;">
     <div class="sidebar-heading text-white">Menú</div>
     <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Inicio</a>
-        <a href="administracionPrestamos.jsp" class="list-group-item list-group-item-action bg-dark text-white">Administración de Préstamos</a>
-        <a href="inventario.jsp" class="list-group-item list-group-item-action bg-dark text-white">Inventario</a>
+        <a href="SvHome" class="list-group-item list-group-item-action bg-dark text-white">Inicio</a>
+        <a href="SvMostrarPrestamos" class="list-group-item list-group-item-action bg-dark text-white">Administración de Préstamos</a>
+        <a href="SvMemoriaInventario" class="list-group-item list-group-item-action bg-dark text-white">Inventario</a>
         <div class="list-group-item bg-dark text-white">
             <a class="text-white text-decoration-none" data-bs-toggle="collapse" href="#reportesSubmenu" role="button" aria-expanded="false" aria-controls="reportesSubmenu">
                 Informes
@@ -158,30 +158,39 @@
             <div class="container-fluid py-4">
                 <h1 class="mt-4" style="text-align: center; font-weight: 600; color: #000000;">Sistema Lab de Especialidades</h1>
                 <div class="row">
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="card text-white bg-primary mb-3">
                             <div class="card-header">Equipos Totales</div>
                             <div class="card-body">
-                                <h5 class="card-title">120</h5>
+                            <h5 class="card-title"><%= session.getAttribute("totalEquipos") != null ? session.getAttribute("totalEquipos") : "N/A" %></h5>
                                 <p class="card-text">Equipos Registrados</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="card text-white bg-success mb-3">
                             <div class="card-header">Prestamos</div>
                             <div class="card-body">
-                                <h5 class="card-title">45</h5>
+                            <h5 class="card-title"><%= session.getAttribute("prestamosActivos") != null ? session.getAttribute("prestamosActivos") : "N/A" %></h5>
                                 <p class="card-text">Prestamos Activos</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="card text-white bg-warning mb-3">
                             <div class="card-header">Equipos Disponibles</div>
                             <div class="card-body">
-                                <h5 class="card-title">8</h5>
+                            <h5 class="card-title"><%= session.getAttribute("equiposDisponibles") != null ? session.getAttribute("equiposDisponibles") : "N/A" %></h5>
                                 <p class="card-text">Equipos Disponibles para Prestamos</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card text-white bg-warning mb-3">
+                            <div class="card-header">Usuarios Registrados</div>
+                            <div class="card-body">
+                            <h5 class="card-title"><%= session.getAttribute("totalUsuarios") != null ? session.getAttribute("totalUsuarios") : "N/A" %></h5>
+                                <p class="card-text">Usuarios con un Préstamo o Mas</p>
                             </div>
                         </div>
                     </div>

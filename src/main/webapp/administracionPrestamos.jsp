@@ -140,9 +140,9 @@
 <div class="bg-dark border-right" id="sidebar-wrapper" style="min-width: 250px;">
     <div class="sidebar-heading text-white">Menú</div>
     <div class="list-group list-group-flush">
-        <a href="home.jsp" class="list-group-item list-group-item-action bg-dark text-white">Inicio</a>
-        <a href="administracionPrestamos.jsp" class="list-group-item list-group-item-action bg-dark text-white">Administración de Préstamos</a>
-        <a href="inventario.jsp" class="list-group-item list-group-item-action bg-dark text-white">Inventario</a>
+        <a href="SvHome" class="list-group-item list-group-item-action bg-dark text-white">Inicio</a>
+        <a href="SvMostrarPrestamos" class="list-group-item list-group-item-action bg-dark text-white">Administración de Préstamos</a>
+        <a href="SvMemoriaInventario" class="list-group-item list-group-item-action bg-dark text-white">Inventario</a>
         <div class="list-group-item bg-dark text-white">
             <a class="text-white text-decoration-none" data-bs-toggle="collapse" href="#reportesSubmenu" role="button" aria-expanded="false" aria-controls="reportesSubmenu">
                 Informes
@@ -188,8 +188,7 @@
                     <td><%= prestamo.getMotivo() %></td>
                     <td>
                         <!-- Botón Eliminar -->
-                        <a href="SvEliminarPrestamo?rut=<%= prestamo.getUsuario().getRut() %>&idEquipo=<%= prestamo.getEquipo().getIdEquipo() %>"
-                           class="btn btn-danger btn-sm">Eliminar</a>
+                        <a href="#" onclick="eliminarPrestamo('<%= prestamo.getUsuario().getRut() %>', '<%= prestamo.getEquipo().getIdEquipo() %>')" class="btn btn-danger btn-sm">Eliminar</a>
                     </td>
                 </tr>
                 <%
@@ -264,7 +263,30 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <script>
+        function eliminarPrestamo(rutUsuario, idEquipo) {
+            if (confirm("¿Estás seguro que el equipo fue devuelto correctamente?")) {
+                fetch('SvEliminarPrestamo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                body: 'rutUsuario=' + encodeURIComponent(rutUsuario) + '&idEquipo=' + encodeURIComponent(idEquipo)})
+                .then(response => {
+                    if (response.ok) {
+                        // Redirigir para actualizar la lista de inventarios
+                        window.location.href = 'SvMostrarPrestamos';
+                    } else {
+                        alert('Error al eliminar prestamo.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al eliminar prestamo.');
+                });
+            }
+        }
+    </script>
 
 </body>
 

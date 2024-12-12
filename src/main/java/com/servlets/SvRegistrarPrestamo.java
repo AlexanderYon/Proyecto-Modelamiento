@@ -33,7 +33,7 @@ public class SvRegistrarPrestamo extends HttpServlet {
         String nombre = request.getParameter("nombreUsuario");
         String rut = request.getParameter("rutUsuario");
         String idEquipo = request.getParameter("idEquipo");
-        String horaDevolucion = request.getParameter("horaEstmiada");
+        String horaDevolucion = request.getParameter("horaEstimada");
         String motivo = request.getParameter("motivo");
 
         try {
