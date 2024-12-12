@@ -44,8 +44,8 @@ public class SvHome extends HttpServlet {
         int equiposDisponibles = totalEquipos - prestamosActivos;
 
         // Obtener el número de usuarios registrados
-        ArrayList<Persona> usuarios = controlador.getPersonas();
-        int totalUsuarios = usuarios.size();
+        ArrayList<Persona> personas = controlador.getPersonas();
+        long totalUsuarios = personas.stream().filter(persona -> (persona instanceof com.modelo.Usuario)).count();
 
         // Pasar los datos a la sesión
         HttpSession session = request.getSession();
