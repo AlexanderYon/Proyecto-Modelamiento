@@ -97,8 +97,13 @@ public class ControladorSistema implements Serializable {
         Usuario usuario = buscarUsuario(Rut.valueOf(rut));
         
         if (usuario == null){
-            return false; // no se encontró al usuario
+            registrarUsuario(nombre, rut);
         }
+        usuario=buscarUsuario(Rut.valueOf(rut));
+        if(usuario == null){
+            return false;
+        }
+        
         
         Equipo equipo = buscarEquipo(idEquipo);
         if (equipo == null){
@@ -118,10 +123,13 @@ public class ControladorSistema implements Serializable {
     
     public boolean eliminarPrestamo(String idEquipo) {
         Prestamo prestamo = buscarPrestamo(idEquipo);
+        Equipo equipoPrestamo = buscarEquipo(idEquipo);
         
         if (prestamo == null){ // No se encontró el préstamo
             return false;
         }
+        equipoPrestamo.cambiarEstadoPrestamo();
+        equipoPrestamo.setPrestamo(null);
         return listaPrestamos.remove(prestamo);
     }
     
